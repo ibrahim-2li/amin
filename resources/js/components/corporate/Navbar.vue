@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Link, usePage } from '@inertiajs/vue3'
+import { Link } from '@inertiajs/vue3'
 
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 
 const navLinks = [
-    { label: 'Home', href: '/', name: 'home' },
-    { label: 'About', href: '/about', name: 'about' },
-    { label: 'Capabilities', href: '/capabilities', name: 'divisions.index' },
-    { label: 'Sustainability', href: '/sustainability', name: 'sustainability' },
-    { label: 'Quality', href: '/quality', name: 'quality' },
-    { label: 'Partners', href: '/partners', name: 'partners' },
-    { label: 'Contact', href: '/contact', name: 'contact' },
+    { label: 'Home', href: '/' },
+    { label: 'About Us', href: '/about' },
+    { label: 'Areas of Expertise', href: '/capabilities' },
+    { label: 'ESG Commitment', href: '/sustainability' },
+    { label: 'Partners', href: '/partners' },
+    { label: 'Contact Us', href: '/contact' },
 ]
 
 function handleScroll() {
@@ -35,12 +34,6 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll)
 })
-
-const page = usePage()
-
-function isActive(name: string): boolean {
-    return page.props.ziggy?.location?.includes(name) ?? false
-}
 </script>
 
 <template>
@@ -51,13 +44,13 @@ function isActive(name: string): boolean {
         <nav class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Logo -->
-                <Link href="/" class="flex items-center gap-3 group" @click="closeMobileMenu">
+                <Link href="/" class="flex items-center gap-2 group" @click="closeMobileMenu">
                     <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 bg-[#c9a84c] rounded-sm flex items-center justify-center">
-                            <span class="text-[#0b1f3a] font-black text-sm">A</span>
+                        <div class="w-9 h-9 bg-[#c9a84c] rounded-sm flex items-center justify-center">
+                            <span class="text-[#0b1f3a] font-black text-base tracking-tight">e7</span>
                         </div>
                         <span class="text-white font-bold text-xl tracking-tight">
-                            Amin<span class="text-[#c9a84c]">Group</span>
+                            <span class="text-[#c9a84c]">e7</span> Group
                         </span>
                     </div>
                 </Link>
@@ -66,7 +59,7 @@ function isActive(name: string): boolean {
                 <div class="hidden lg:flex items-center gap-1">
                     <Link
                         v-for="link in navLinks"
-                        :key="link.name"
+                        :key="link.href"
                         :href="link.href"
                         class="relative px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors duration-200 group"
                     >
@@ -117,7 +110,7 @@ function isActive(name: string): boolean {
                 <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col gap-2">
                     <Link
                         v-for="link in navLinks"
-                        :key="link.name"
+                        :key="link.href"
                         :href="link.href"
                         class="px-4 py-3 text-white/80 hover:text-white hover:bg-white/5 rounded-sm transition-colors duration-200 font-medium"
                         @click="closeMobileMenu"

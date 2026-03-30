@@ -23,7 +23,7 @@ import ContactForm from '@/components/corporate/ContactForm.vue'
                     Let's start a conversation.
                 </h1>
                 <p class="mt-6 text-white/60 text-lg max-w-2xl leading-relaxed">
-                    Whether you have a specific project in mind or simply want to understand how Amin Group can help — we'd be glad to hear from you.
+                    Whether you have a specific project in mind or simply want to understand how e7 Group can help — our team is ready to assist you in English and Arabic.
                 </p>
             </div>
         </section>
@@ -43,40 +43,42 @@ import ContactForm from '@/components/corporate/ContactForm.vue'
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-widest text-[#c9a84c] mb-2">Head Office</p>
                                 <p class="text-slate-600 leading-relaxed">
-                                    Amin Group Headquarters<br />
-                                    Dubai, United Arab Emirates
+                                    e7 Group<br />
+                                    Plot 220, Old Shahama<br />
+                                    Abu Dhabi, UAE
                                 </p>
                             </div>
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-widest text-[#c9a84c] mb-2">Email</p>
-                                <a href="mailto:info@amingroup.ae" class="text-slate-600 hover:text-[#c9a84c] transition-colors duration-200">
-                                    info@amingroup.ae
+                                <a href="mailto:info@e7group.ae" class="text-slate-600 hover:text-[#c9a84c] transition-colors duration-200">
+                                    info@e7group.ae
                                 </a>
                             </div>
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-widest text-[#c9a84c] mb-2">Telephone</p>
-                                <a href="tel:+97140000000" class="text-slate-600 hover:text-[#c9a84c] transition-colors duration-200">
-                                    +971 4 000 0000
+                                <p class="text-xs font-semibold uppercase tracking-widest text-[#c9a84c] mb-2">Toll-Free</p>
+                                <a href="tel:+971600500877" class="text-slate-600 hover:text-[#c9a84c] transition-colors duration-200">
+                                    +971 600500877
                                 </a>
+                                <p class="text-xs text-slate-400 mt-1">Available in English and Arabic</p>
                             </div>
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-widest text-[#c9a84c] mb-2">Business Hours</p>
                                 <p class="text-slate-600 leading-relaxed">
-                                    Sunday – Thursday<br />
+                                    Monday – Friday<br />
                                     8:00 AM – 5:00 PM GST
                                 </p>
                             </div>
                         </div>
 
-                        <!-- Division enquiries -->
+                        <!-- Business unit enquiries -->
                         <div class="mt-12 p-6 bg-slate-50 border border-slate-100">
-                            <p class="text-xs font-semibold uppercase tracking-widest text-[#c9a84c] mb-4">Division Enquiries</p>
+                            <p class="text-xs font-semibold uppercase tracking-widest text-[#c9a84c] mb-4">Business Unit Enquiries</p>
                             <ul class="space-y-2 text-sm text-slate-500">
-                                <li>Identity Solutions: identity@amingroup.ae</li>
-                                <li>Packaging: packaging@amingroup.ae</li>
-                                <li>Printing: printing@amingroup.ae</li>
-                                <li>Education: education@amingroup.ae</li>
-                                <li>Logistics: logistics@amingroup.ae</li>
+                                <li>e7 Security: security@e7group.ae</li>
+                                <li>e7 Packaging: packaging@e7group.ae</li>
+                                <li>e7 Printing: printing@e7group.ae</li>
+                                <li>e7 Education: education@e7group.ae</li>
+                                <li>Tawzea by e7: tawzea@e7group.ae</li>
                             </ul>
                         </div>
                     </div>
@@ -85,7 +87,7 @@ import ContactForm from '@/components/corporate/ContactForm.vue'
                     <div class="lg:col-span-2">
                         <SectionTitle
                             eyebrow="Send a Message"
-                            title="Tell us about your project."
+                            title="Tell us about your requirements."
                         />
                         <div class="mt-10">
                             <ContactForm />
@@ -105,7 +107,8 @@ import ContactForm from '@/components/corporate/ContactForm.vue'
             <div class="absolute inset-0 flex items-center justify-center">
                 <div class="text-center">
                     <div class="w-3 h-3 bg-[#c9a84c] rounded-full mx-auto mb-2 animate-pulse" />
-                    <p class="text-white/50 text-sm">Dubai, United Arab Emirates</p>
+                    <p class="text-white/60 text-sm font-semibold">Plot 220, Old Shahama</p>
+                    <p class="text-white/40 text-xs mt-1">Abu Dhabi, United Arab Emirates</p>
                 </div>
             </div>
         </section>

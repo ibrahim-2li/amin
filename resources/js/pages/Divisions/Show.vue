@@ -95,9 +95,9 @@ const props = defineProps<{
                             <p class="text-xs font-semibold uppercase tracking-widest mb-4" :style="{ color: division.color }">Why Choose Us</p>
                             <ul class="space-y-4">
                                 <li v-for="item in [
-                                    'Decades of specialised expertise in this domain',
-                                    'Deep understanding of regional regulatory requirements',
-                                    'Proven track record with sovereign and enterprise clients',
+                                    'Specialised expertise backed by ADQ',
+                                    'Seamless integration with our other business units',
+                                    'Proven track record with UAE government and enterprise clients',
                                     'End-to-end capability from design through delivery',
                                     'ISO-certified quality management throughout',
                                 ]" :key="item" class="flex items-start gap-3 text-sm text-slate-600">
@@ -137,8 +137,8 @@ const props = defineProps<{
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <SectionTitle
                     eyebrow="Explore More"
-                    title="Our other divisions."
-                    subtitle="Discover the breadth of our capabilities across Amin Group."
+                    title="Our other business units."
+                    subtitle="Discover the full range of integrated solutions across e7 Group."
                     :light="true"
                 />
                 <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

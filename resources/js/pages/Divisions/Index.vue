@@ -32,12 +32,12 @@ defineProps<{
             </div>
             <div class="absolute inset-0 opacity-10" style="background: radial-gradient(ellipse at 30% 50%, rgba(201,168,76,0.5) 0%, transparent 65%);" />
             <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
-                <p class="text-xs font-semibold uppercase tracking-widest text-[#c9a84c] mb-4">What We Do</p>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#c9a84c] mb-4">Areas of Expertise</p>
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white max-w-3xl leading-tight">
-                    Our Capabilities & Divisions.
+                    Five Business Units. One Seamless Group.
                 </h1>
                 <p class="mt-6 text-white/60 text-lg max-w-2xl leading-relaxed">
-                    Five specialised divisions, each a world-class centre of excellence — working in concert to deliver comprehensive solutions for the most demanding clients in the world.
+                    From identity solutions and secure printing to packaging, education, and logistics — our five specialised business units work in concert to provide seamless, integrated solutions across the UAE.
                 </p>
             </div>
         </section>
@@ -61,8 +61,8 @@ defineProps<{
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <SectionTitle
                     eyebrow="At a Glance"
-                    title="What each division delivers."
-                    subtitle="A snapshot of the core service areas within each of our five specialised divisions."
+                    title="What each business unit delivers."
+                    subtitle="A snapshot of the core service areas within each of our five specialised business units."
                 />
                 <div class="mt-16 space-y-12">
                     <div
@@ -106,7 +106,7 @@ defineProps<{
         <section class="bg-[#c9a84c] py-20">
             <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
                 <h2 class="text-3xl font-bold text-[#0b1f3a] mb-4">Have a specific requirement?</h2>
-                <p class="text-[#0b1f3a]/70 text-lg mb-8">Our specialists will identify the right solution across our divisions.</p>
+                <p class="text-[#0b1f3a]/70 text-lg mb-8">Our specialists will identify the right integrated solution for your business.</p>
                 <Link href="/contact" class="inline-flex items-center gap-2 px-10 py-4 bg-[#0b1f3a] text-white font-bold text-sm uppercase tracking-widest hover:bg-[#16304f] transition-colors duration-200">
                     Talk to a Specialist
                 </Link>
