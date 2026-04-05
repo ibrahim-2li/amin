@@ -1,17 +1,28 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import { Link } from '@inertiajs/vue3'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { Link, usePage } from '@inertiajs/vue3'
+
+const page = usePage()
+const appName = computed(() => (page.props.name as string) || 'NULL')
+const appNameFirstPart = computed(() => {
+    const parts = appName.value.trim().split(' ')
+    return parts[0]
+})
+const appNameSecondPart = computed(() => {
+    const parts = appName.value.trim().split(' ')
+    return parts.slice(1).join(' ')
+})
 
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 
 const navLinks = [
     { label: 'Home', href: '/' },
-    { label: 'About Us', href: '/about' },
-    { label: 'Areas of Expertise', href: '/capabilities' },
-    { label: 'ESG Commitment', href: '/sustainability' },
-    { label: 'Partners', href: '/partners' },
-    { label: 'Contact Us', href: '/contact' },
+    { label: 'About us', href: '/about' },
+    { label: 'Areas of expertise', href: '/capabilities' },
+    { label: 'Our commitment', href: '/sustainability' },
+    { label: 'Investor relations', href: '/partners' },
+    { label: 'Careers', href: '/contact' },
 ]
 
 function handleScroll() {
@@ -39,19 +50,15 @@ onUnmounted(() => {
 <template>
     <header
         class="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-        :class="isScrolled ? 'bg-[#0b1f3a]/95 backdrop-blur-md shadow-lg' : 'bg-transparent'"
+        :class="isScrolled ? 'bg-[#222222]/95 backdrop-blur-md shadow-lg border-b border-[#333333]' : 'bg-transparent'"
     >
         <nav class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Logo -->
                 <Link href="/" class="flex items-center gap-2 group" @click="closeMobileMenu">
-                    <div class="flex items-center gap-2">
-                        <div class="w-9 h-9 bg-[#c9a84c] rounded-sm flex items-center justify-center">
-                            <span class="text-[#0b1f3a] font-black text-base tracking-tight">e7</span>
-                        </div>
-                        <span class="text-white font-bold text-xl tracking-tight">
-                            <span class="text-[#c9a84c]">e7</span> Group
-                        </span>
+                    <div class="flex items-baseline">
+                        <span class="text-[#00C4CC] font-black text-4xl tracking-tighter">{{ appNameFirstPart }}</span>
+                        <span v-if="appNameSecondPart" class="text-white font-medium text-lg ml-2 tracking-wide uppercase">{{ appNameSecondPart }}</span>
                     </div>
                 </Link>
 
@@ -61,20 +68,23 @@ onUnmounted(() => {
                         v-for="link in navLinks"
                         :key="link.href"
                         :href="link.href"
-                        class="relative px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors duration-200 group"
+                        class="relative px-4 py-2 text-[13px] font-medium text-white/90 hover:text-white transition-colors duration-200 group uppercase tracking-wider"
                     >
                         {{ link.label }}
-                        <span class="absolute bottom-0 left-4 right-4 h-px bg-[#c9a84c] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                        <span class="absolute bottom-0 left-4 right-4 h-[2px] bg-[#00C4CC] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
                     </Link>
                 </div>
 
                 <!-- CTA Button -->
-                <div class="hidden lg:block">
+                <div class="hidden lg:flex items-center gap-4">
+                    <!-- <button class="text-white hover:text-[#00C4CC] transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </button> -->
                     <Link
-                        href="/contact"
-                        class="px-6 py-2.5 bg-[#c9a84c] text-[#0b1f3a] text-sm font-semibold rounded-sm hover:bg-[#d4b366] transition-colors duration-200 tracking-wide"
+                        href="/contact#contact"
+                        class="px-6 py-2 border border-[#00C4CC] text-[#00C4CC] uppercase tracking-widest text-[11px] font-bold rounded-full hover:bg-[#00C4CC] hover:text-white transition-colors duration-300"
                     >
-                        Get in Touch
+                        Contact
                     </Link>
                 </div>
 
@@ -105,7 +115,7 @@ onUnmounted(() => {
         >
             <div
                 v-if="isMobileMenuOpen"
-                class="lg:hidden bg-[#0b1f3a]/98 backdrop-blur-md border-t border-white/10"
+                class="lg:hidden bg-[#222222]/98 backdrop-blur-md border-t border-[#333333]"
             >
                 <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col gap-2">
                     <Link
@@ -119,10 +129,10 @@ onUnmounted(() => {
                     </Link>
                     <Link
                         href="/contact"
-                        class="mt-2 px-6 py-3 bg-[#c9a84c] text-[#0b1f3a] font-semibold rounded-sm text-center hover:bg-[#d4b366] transition-colors duration-200"
+                        class="mt-4 px-6 py-3 border border-[#00C4CC] text-[#00C4CC] font-bold uppercase tracking-widest text-[11px] rounded-full text-center hover:bg-[#00C4CC] hover:text-white transition-colors duration-200"
                         @click="closeMobileMenu"
                     >
-                        Get in Touch
+                        Contact
                     </Link>
                 </div>
             </div>

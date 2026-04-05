@@ -16,6 +16,7 @@ class HomeController extends Controller
         $partners = Partner::active()->ordered()->get();
 
         return Inertia::render('Home', [
+            'about' => \App\Models\About::first(),
             'divisions' => $divisions,
             'partners' => $partners,
             'stats' => [

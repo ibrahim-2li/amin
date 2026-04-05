@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Building2, Handshake, LayoutGrid, Layers, Mail, Settings2 } from 'lucide-vue-next';
+import { BookOpen, Building2, Handshake, LayoutGrid, Layers, Mail, Settings2, Briefcase } from 'lucide-vue-next';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
@@ -31,9 +31,19 @@ const mainNavItems: NavItem[] = [
 
 const adminNavItems = computed<NavItem[]>(() => [
     {
+        title: 'About Page',
+        href: '/admin/about',
+        icon: BookOpen,
+    },
+    {
         title: 'Divisions',
         href: '/admin/divisions',
         icon: Layers,
+    },
+    {
+        title: 'Services',
+        href: '/admin/services',
+        icon: Briefcase,
     },
     {
         title: 'Partners',
@@ -58,11 +68,6 @@ const footerNavItems: NavItem[] = [
         title: 'View Website',
         href: '/',
         icon: Building2,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
     },
 ];
 </script>

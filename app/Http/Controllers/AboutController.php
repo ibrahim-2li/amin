@@ -11,6 +11,7 @@ class AboutController extends Controller
     public function __invoke(): Response
     {
         return Inertia::render('About', [
+            'about' => \App\Models\About::first(),
             'stats' => [
                 'founded' => Setting::get('founded_year', '1985'),
                 'countries' => Setting::get('countries_served', '30+'),

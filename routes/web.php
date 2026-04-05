@@ -35,8 +35,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/divisions/{division}/edit', [Admin\DivisionController::class, 'edit'])->name('divisions.edit');
         Route::put('/divisions/{division}', [Admin\DivisionController::class, 'update'])->name('divisions.update');
 
-        // Services (managed inside division edit)
-        Route::post('/divisions/{division}/services', [Admin\ServiceController::class, 'store'])->name('services.store');
+        // Services
+        Route::get('/services', [Admin\ServiceController::class, 'index'])->name('services.index');
+        Route::post('/services', [Admin\ServiceController::class, 'store'])->name('services.store');
         Route::put('/services/{service}', [Admin\ServiceController::class, 'update'])->name('services.update');
         Route::delete('/services/{service}', [Admin\ServiceController::class, 'destroy'])->name('services.destroy');
 
@@ -51,6 +52,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Settings
         Route::get('/settings', [Admin\SettingController::class, 'index'])->name('settings.index');
         Route::put('/settings', [Admin\SettingController::class, 'update'])->name('settings.update');
+
+        // About Page
+        Route::get('/about', [Admin\AboutController::class, 'edit'])->name('about.edit');
+        Route::put('/about', [Admin\AboutController::class, 'update'])->name('about.update');
 
         // Contacts
         Route::get('/contacts', [Admin\ContactController::class, 'index'])->name('contacts.index');
