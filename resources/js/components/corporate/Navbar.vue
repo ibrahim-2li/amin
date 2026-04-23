@@ -57,9 +57,18 @@ onUnmounted(() => {
                 <!-- Logo -->
                 <Link href="/" class="flex items-center gap-2 group" @click="closeMobileMenu">
                     <div class="flex items-baseline">
-                        <span class="text-[#00C4CC] font-black text-4xl tracking-tighter">{{ appNameFirstPart }}</span>
-                        <span v-if="appNameSecondPart" class="text-white font-medium text-lg ml-2 tracking-wide uppercase">{{ appNameSecondPart }}</span>
+
+                        <span class="text-[#00C4CC] font-black text-4xl tracking-tighter"><img
+                        src="/images/IDEXA-black.png" alt="Logo" class="w-20 h-20" /></span>
+                        <!-- <span class="text-white font-medium text-lg ml-2 tracking-wide uppercase">{{ appNameFirstPart }}</span> -->
                     </div>
+                    <!-- <a href="/" class="flex items-center gap-1 group">
+                <span
+                    class="text-[#115597] text-[1.7rem] font-bold tracking-tighter group-hover:text-white transition-colors"><img
+                        src="/images/IDEXA.png" alt="Logo" class="w-16 h-16" /></span>
+                <span
+                    class="text-white text-[1.1rem] font-medium tracking-tight group-hover:text-[#115597] transition-colors mt-[2px]">{{ $nameParts[1] ?? '' }}</span>
+            </a> -->
                 </Link>
 
                 <!-- Desktop Navigation -->
