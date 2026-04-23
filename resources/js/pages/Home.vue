@@ -45,11 +45,14 @@ onMounted(() => {
         <section class="relative min-h-screen flex items-center overflow-hidden bg-[#222222]">
             <!-- Background photo -->
             <div class="absolute inset-0">
-                <img
-                    src="https://e7group.ae/public/assets/img/business_units/e7printingbusiness_units_banner.jpg"
+                <video
+                    src="https://e7group.ae/public/assets/img/banner/home_banner.mp4"
                     alt="Industrial Machinery"
                     class="w-full h-full object-cover"
                     loading="eager"
+                    autoplay
+                    muted
+                    loop
                 />
                 <div class="absolute inset-0 bg-black/40" />
             </div>
@@ -72,7 +75,7 @@ onMounted(() => {
                     </div>
                 </Transition>
             </div>
-            
+
             <div class="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/70 animate-bounce">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
@@ -111,18 +114,18 @@ onMounted(() => {
                 <div class="mb-16">
                     <h2 class="text-4xl md:text-5xl font-bold text-[#222222] tracking-tight">Areas of Expertise</h2>
                 </div>
-                
+
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div 
-                        v-for="(division, index) in divisions.slice(0, 4)" 
+                    <div
+                        v-for="(division, index) in divisions.slice(0, 4)"
                         :key="division.id"
                         class="bg-white border border-[#eaeaea] group hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col h-full"
                     >
                         <div class="relative w-full h-50 overflow-hidden bg-[#222222]">
-                            <img 
-                                :src="division.hero_image || 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&q=80'" 
+                            <img
+                                :src="division.hero_image || 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&q=80'"
                                 :alt="division.name"
-                                class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" 
+                                class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
                             />
                         </div>
                         <div class="p-8 flex flex-col flex-1">
@@ -130,7 +133,7 @@ onMounted(() => {
                             <p class="text-[#222222]/60 text-sm leading-relaxed mb-8 flex-1">
                                 {{ division.description.length > 100 ? division.description.substring(0, 50) + '...' : division.description }}
                             </p>
-                            <Link 
+                            <Link
                                 :href="`/capabilities/${division.slug}`"
                                 class="inline-flex w-full items-center justify-center px-6 py-3 border border-[#00C4CC] text-[#00C4CC] font-bold text-[11px] uppercase tracking-widest rounded-full hover:bg-[#00C4CC] hover:text-white transition-all duration-300"
                             >
@@ -146,12 +149,12 @@ onMounted(() => {
         <section class="bg-white pb-24 lg:pb-32">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="grid md:grid-cols-2 gap-6 w-full h-[500px]">
-                    
+
                     <!-- Investor Relations -->
                     <Link href="/partners" class="relative group block h-full w-full overflow-hidden bg-[#222222]">
-                        <img 
-                            src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?w=900&q=80" 
-                            alt="Investor Relations" 
+                        <img
+                            src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?w=900&q=80"
+                            alt="Investor Relations"
                             class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000"
                         />
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -167,9 +170,9 @@ onMounted(() => {
 
                     <!-- Careers -->
                     <Link href="/contact" class="relative group block h-full w-full overflow-hidden bg-[#222222]">
-                        <img 
-                            src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&q=80" 
-                            alt="Careers" 
+                        <img
+                            src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&q=80"
+                            alt="Careers"
                             class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000"
                         />
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -186,6 +189,6 @@ onMounted(() => {
                 </div>
             </div>
         </section>
-        
+
     </div>
 </template>
