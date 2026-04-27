@@ -59,6 +59,15 @@ class HandleInertiaRequests extends Middleware
             'unreadContactCount' => $request->user()
                 ? fn() => Contact::unread()->count()
                 : 0,
+            'locale' => app()->getLocale(),
+            'translations' => function () {
+                $locale = app()->getLocale();
+                $path = base_path("lang/{$locale}.json");
+                if (file_exists($path)) {
+                    return json_decode(file_get_contents($path), true);
+                }
+                return [];
+            },
         ];
     }
 }

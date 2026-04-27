@@ -11,6 +11,15 @@ use App\Http\Controllers\SustainabilityController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
+use Illuminate\Support\Facades\Session;
+
+Route::get('/locale/{language}', function ($language) {
+    if (in_array($language, ['en', 'ar'])) {
+        Session::put('locale', $language);
+    }
+    return back();
+})->name('locale.switch');
+
 // Corporate public routes
 Route::get('/', HomeController::class)->name('home');
 Route::get('/about', AboutController::class)->name('about');
