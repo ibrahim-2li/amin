@@ -7,10 +7,14 @@ const props = defineProps<{
     division: {
         id: number
         name: string
+        name_ar: string | null
         slug: string
-        tagline: string
+        tagline: string | null
+        tagline_ar: string | null
         description: string
-        long_description: string
+        description_ar: string | null
+        long_description: string | null
+        long_description_ar: string | null
         hero_image: string | null
         color: string
         order: number
@@ -38,10 +42,14 @@ defineOptions({
 // Division form
 const divisionForm = useForm({
     name: props.division.name,
+    name_ar: props.division.name_ar ?? '',
     slug: props.division.slug,
     tagline: props.division.tagline ?? '',
+    tagline_ar: props.division.tagline_ar ?? '',
     description: props.division.description,
+    description_ar: props.division.description_ar ?? '',
     long_description: props.division.long_description ?? '',
+    long_description_ar: props.division.long_description_ar ?? '',
     hero_image: props.division.hero_image ?? '',
     color: props.division.color,
     order: props.division.order,
@@ -96,31 +104,57 @@ const flash = computed(() => (page.props.flash as { success?: string; error?: st
             <form @submit.prevent="saveDivision" class="p-6 space-y-5">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                        <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Name *</label>
+                        <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Name (EN) *</label>
                         <input v-model="divisionForm.name" type="text" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
                         <p v-if="divisionForm.errors.name" class="mt-1 text-xs text-destructive">{{ divisionForm.errors.name }}</p>
                     </div>
+                    <div dir="rtl">
+                        <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 text-right">الاسم (AR)</label>
+                        <input v-model="divisionForm.name_ar" type="text" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                         <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Slug *</label>
                         <input v-model="divisionForm.slug" type="text" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring" />
                         <p v-if="divisionForm.errors.slug" class="mt-1 text-xs text-destructive">{{ divisionForm.errors.slug }}</p>
                     </div>
+                    <div class="hidden sm:block"></div>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Tagline</label>
-                    <input v-model="divisionForm.tagline" type="text" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" placeholder="Short punchy tagline…" />
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Tagline (EN)</label>
+                        <input v-model="divisionForm.tagline" type="text" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" placeholder="Short punchy tagline…" />
+                    </div>
+                    <div dir="rtl">
+                        <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 text-right">شعار الوحدة (AR)</label>
+                        <input v-model="divisionForm.tagline_ar" type="text" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Description *</label>
-                    <textarea v-model="divisionForm.description" rows="3" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none" placeholder="Short description shown on cards and listing pages…" />
-                    <p v-if="divisionForm.errors.description" class="mt-1 text-xs text-destructive">{{ divisionForm.errors.description }}</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Description (EN) *</label>
+                        <textarea v-model="divisionForm.description" rows="3" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none" placeholder="Short description shown on cards and listing pages…" />
+                        <p v-if="divisionForm.errors.description" class="mt-1 text-xs text-destructive">{{ divisionForm.errors.description }}</p>
+                    </div>
+                    <div dir="rtl">
+                        <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 text-right">الوصف (AR)</label>
+                        <textarea v-model="divisionForm.description_ar" rows="3" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none" />
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Long Description</label>
-                    <textarea v-model="divisionForm.long_description" rows="6" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-y" placeholder="Full description shown on the division detail page. Separate paragraphs with a blank line." />
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Long Description (EN)</label>
+                        <textarea v-model="divisionForm.long_description" rows="6" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-y" placeholder="Full description shown on the division detail page. Separate paragraphs with a blank line." />
+                    </div>
+                    <div dir="rtl">
+                        <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 text-right">الوصف الطويل (AR)</label>
+                        <textarea v-model="divisionForm.long_description_ar" rows="6" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-y" />
+                    </div>
                 </div>
 
                 <div>

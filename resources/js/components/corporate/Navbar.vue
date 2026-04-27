@@ -52,7 +52,7 @@ onUnmounted(() => {
         "
     >
         <nav
-            class="mx-auto max-w-7xl rounded-2xl border border-slate-200 bg-white/80 dark:border-white/10 dark:bg-slate-950/60 px-5 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-xl lg:px-6 transition-all duration-300"
+            class="mx-auto max-w-7xl rounded-2xl border border-cyan-200/60 bg-white/85 dark:border-white/10 dark:bg-slate-950/60 px-5 shadow-[0_4px_30px_rgba(6,182,212,0.08)] backdrop-blur-xl lg:px-6 transition-all duration-300 border-b-2 border-b-cyan-400/50 dark:border-b-cyan-500/30"
             :class="isScrolled ? 'py-1' : 'py-2'"
         >
             <div class="flex h-14 items-center justify-between">
@@ -61,8 +61,13 @@ onUnmounted(() => {
                     class="flex items-center gap-3"
                     @click="closeMobileMenu"
                 >
+                    <img
+                        src="/images/IDEXA.png"
+                        alt="IDEXA Group Logo"
+                        class="h-14 w-auto object-contain"
+                    />
                     <span
-                        class="text-sm font-bold tracking-[0.16em] text-slate-900 dark:text-white uppercase transition-colors"
+                        class="text-sm font-bold tracking-[0.16em] bg-gradient-to-r from-cyan-900 to-cyan-900 bg-clip-text text-transparent dark:text-white uppercase transition-colors"
                     >
                         {{ appName }}
                     </span>
@@ -73,7 +78,7 @@ onUnmounted(() => {
                         v-for="link in navLinks"
                         :key="link.href"
                         :href="link.href"
-                        class="px-3 py-2 text-[12px] font-semibold tracking-[0.12em] text-slate-600 dark:text-slate-300 uppercase transition-all duration-300 hover:text-cyan-600 dark:hover:text-cyan-400 dark:hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]"
+                        class="px-3 py-2 text-[12px] font-semibold tracking-[0.12em] text-indigo-900/70 dark:text-slate-300 uppercase transition-all duration-300 hover:text-cyan-600 hover:drop-shadow-[0_0_6px_rgba(6,182,212,0.3)] dark:hover:text-cyan-400 dark:hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]"
                     >
                         {{ t(link.label) }}
                     </a>
@@ -83,7 +88,7 @@ onUnmounted(() => {
                     <!-- Language Toggle -->
                     <a
                         :href="locale === 'en' ? '/locale/ar' : '/locale/en'"
-                        class="flex items-center gap-1 p-2 text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors tracking-widest"
+                        class="flex items-center gap-1 p-2 text-xs font-bold text-indigo-700/70 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors tracking-widest"
                     >
                         <Globe class="h-4 w-4" />
                         <span class="mt-0.5">{{ locale === 'en' ? 'عربي' : 'EN' }}</span>
@@ -92,7 +97,7 @@ onUnmounted(() => {
                     <!-- Theme Toggle -->
                     <button
                         @click="toggleTheme"
-                        class="p-2 text-slate-600 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
+                        class="p-2 text-indigo-700/70 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
                         :aria-label="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
                     >
                         <Sun v-if="isDark" class="h-5 w-5" />
@@ -102,7 +107,7 @@ onUnmounted(() => {
                     <div class="hidden lg:block">
                         <a
                             href="/#contact"
-                            class="inline-flex items-center gap-2 rounded-full bg-cyan-500/10 border border-cyan-500/50 px-5 py-2.5 text-[11px] font-bold tracking-[0.18em] text-cyan-600 dark:text-cyan-400 uppercase transition-all duration-300 hover:bg-cyan-500 hover:text-white dark:hover:text-slate-950 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+                            class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-cyan-500 to-cyan-500 px-5 py-2.5 text-[11px] font-bold tracking-[0.18em] text-white uppercase transition-all duration-300 hover:from-cyan-400 hover:to-blue-400 hover:shadow-[0_0_24px_rgba(6,182,212,0.5)] dark:from-cyan-500/20 dark:to-blue-500/20 dark:text-cyan-400 dark:border dark:border-cyan-500/50 dark:hover:from-cyan-500 dark:hover:to-blue-500 dark:hover:text-slate-950"
                         >
                             {{ t('Contact') }}
                             <ArrowRight class="h-4 w-4 rtl:rotate-180" />
@@ -157,21 +162,21 @@ onUnmounted(() => {
         >
             <div
                 v-if="isMobileMenuOpen"
-                class="mx-auto mt-2 max-w-7xl rounded-2xl border border-slate-200 bg-white/95 dark:border-white/10 dark:bg-slate-950/90 backdrop-blur-xl lg:hidden"
+                class="mx-auto mt-2 max-w-7xl rounded-2xl border border-cyan-200/60 bg-white/95 dark:border-white/10 dark:bg-slate-950/90 backdrop-blur-xl lg:hidden"
             >
                 <div class="flex flex-col gap-1 px-5 py-5">
                     <a
                         v-for="link in navLinks"
                         :key="link.href"
                         :href="link.href"
-                        class="px-2 py-3 text-sm font-bold tracking-[0.14em] text-slate-600 dark:text-slate-300 uppercase transition-colors hover:text-cyan-600 dark:hover:text-cyan-400"
+                        class="px-2 py-3 text-sm font-bold tracking-[0.14em] text-indigo-900/70 dark:text-slate-300 uppercase transition-colors hover:text-cyan-600 dark:hover:text-cyan-400"
                         @click="closeMobileMenu"
                     >
                         {{ t(link.label) }}
                     </a>
                     <a
                         href="/#contact"
-                        class="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-cyan-500/10 border border-cyan-500/50 px-6 py-3 text-xs font-bold tracking-[0.18em] text-cyan-600 dark:text-cyan-400 uppercase hover:bg-cyan-500 hover:text-white dark:hover:text-slate-950"
+                        class="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-[#12343b] px-6 py-3 text-xs font-bold tracking-[0.18em] text-white uppercase transition-all duration-300 hover:from-cyan-400 hover:to-blue-400 hover:shadow-[0_0_24px_rgba(6,182,212,0.5)] dark:from-cyan-500/20 dark:to-blue-500/20 dark:text-cyan-400 dark:border dark:border-cyan-500/50 dark:hover:from-cyan-500 dark:hover:to-blue-500 dark:hover:text-slate-950"
                         @click="closeMobileMenu"
                     >
                         {{ t('Contact') }}

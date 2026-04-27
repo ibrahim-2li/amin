@@ -2,18 +2,28 @@
 import { Link } from '@inertiajs/vue3'
 import SectionTitle from '@/components/corporate/SectionTitle.vue'
 import { computed } from 'vue'
+import { useTranslations } from '@/composables/useTranslations'
+
+const { t, locale } = useTranslations()
 
 const props = defineProps<{
     about: {
         hero_title: string | null;
+        hero_title_ar: string | null;
         hero_subtitle: string | null;
+        hero_subtitle_ar: string | null;
         hero_image: string | null;
         purpose_title: string | null;
+        purpose_title_ar: string | null;
         purpose_description: string | null;
+        purpose_description_ar: string | null;
         mission: string | null;
+        mission_ar: string | null;
         vision: string | null;
+        vision_ar: string | null;
         backing: string | null;
-        values: Array<{ title: string; desc: string; icon: string }> | null;
+        backing_ar: string | null;
+        values: Array<{ title: string; title_ar: string; desc: string; desc_ar: string; icon: string }> | null;
     } | null
     stats: {
         founded: string
@@ -46,27 +56,41 @@ const defaultValues = [
     },
 ]
 
-const about = computed(() => ({
-    hero_title: props.about?.hero_title || 'Trusted solutions for businesses across Saudi Arabia.',
-    hero_subtitle:
-        props.about?.hero_subtitle ||
-        'Amin Group brings together specialised capabilities, reliable operations, and long-term partnerships to support organisations with confidence.',
-    hero_image: props.about?.hero_image || 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1920&q=80',
-    purpose_title: props.about?.purpose_title || 'Purpose-built support for ambitious organisations.',
-    purpose_description:
-        props.about?.purpose_description ||
-        'We help clients move from requirement to delivery with clear coordination, practical expertise, and a commitment to quality at every step.',
-    mission:
-        props.about?.mission ||
-        'To deliver dependable business solutions that help our clients operate, grow, and serve their customers better.',
-    vision:
-        props.about?.vision ||
-        'To be a trusted Saudi partner known for quality, reliability, and integrated service delivery.',
-    backing:
-        props.about?.backing ||
-        'Our work is strengthened by experienced teams, operational discipline, and partnerships with organisations that share our standards.',
-    values: props.about?.values?.length ? props.about.values : defaultValues,
-}))
+const about = computed(() => {
+    const isAr = locale.value === 'ar';
+    return {
+        hero_title: (isAr ? props.about?.hero_title_ar : props.about?.hero_title) || props.about?.hero_title || 'Trusted solutions for businesses across Saudi Arabia.',
+        hero_subtitle:
+            (isAr ? props.about?.hero_subtitle_ar : props.about?.hero_subtitle) ||
+            props.about?.hero_subtitle ||
+            'Amin Group brings together specialised capabilities, reliable operations, and long-term partnerships to support organisations with confidence.',
+        hero_image: props.about?.hero_image || 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1920&q=80',
+        purpose_title: (isAr ? props.about?.purpose_title_ar : props.about?.purpose_title) || props.about?.purpose_title || 'Purpose-built support for ambitious organisations.',
+        purpose_description:
+            (isAr ? props.about?.purpose_description_ar : props.about?.purpose_description) ||
+            props.about?.purpose_description ||
+            'We help clients move from requirement to delivery with clear coordination, practical expertise, and a commitment to quality at every step.',
+        mission:
+            (isAr ? props.about?.mission_ar : props.about?.mission) ||
+            props.about?.mission ||
+            'To deliver dependable business solutions that help our clients operate, grow, and serve their customers better.',
+        vision:
+            (isAr ? props.about?.vision_ar : props.about?.vision) ||
+            props.about?.vision ||
+            'To be a trusted Saudi partner known for quality, reliability, and integrated service delivery.',
+        backing:
+            (isAr ? props.about?.backing_ar : props.about?.backing) ||
+            props.about?.backing ||
+            'Our work is strengthened by experienced teams, operational discipline, and partnerships with organisations that share our standards.',
+        values: props.about?.values?.length 
+            ? props.about.values.map(v => ({
+                title: (isAr ? v.title_ar : v.title) || v.title,
+                desc: (isAr ? v.desc_ar : v.desc) || v.desc,
+                icon: v.icon
+            })) 
+            : defaultValues,
+    }
+})
 
 const statValue = (value: string, fallback: string) => (value && value !== 'null' ? value : fallback)
 const statItems = computed(() => [

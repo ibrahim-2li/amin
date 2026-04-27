@@ -30,9 +30,12 @@ type Service = {
 type Division = {
     id: number;
     name: string;
+    name_ar: string | null;
     slug: string;
     tagline: string | null;
+    tagline_ar: string | null;
     description: string | null;
+    description_ar: string | null;
     hero_image: string | null;
     color: string | null;
     order: number;
@@ -51,6 +54,9 @@ const props = defineProps<{
         home_title: string | null;
         home_text: string | null;
         home_image: string | null;
+        home_delivery_label: string | null;
+        home_delivery_text: string | null;
+        home_features: { title: string; description: string; icon: string }[] | null;
     } | null;
     divisions: Division[];
     partners: Partner[];
@@ -66,97 +72,97 @@ const page = usePage();
 const appName = computed(() => (page.props.name as string) || 'IDEXA Group');
 const settings = computed(() => page.props.settings as Record<string, string>);
 
-const { t } = useTranslations();
+const { t, locale, isRtl } = useTranslations();
 
-const fallbackDivisions: Division[] = [
-    {
-        id: -1,
-        name: 'IDEXA Security',
-        slug: 'security',
-        tagline:
-            'Secure identity, credentials, and data protection for critical operations.',
-        description:
-            'High-security identity, authentication, and personalization solutions for government, banking, telecom, travel, and enterprise environments.',
-        hero_image:
-            'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1200&q=80&auto=format&fit=crop',
-        color: '#0e7490',
-        order: 1,
-        services: [
-            { id: -11, title: 'Secure ID production', description: '' },
-            { id: -12, title: 'Card personalization', description: '' },
-            { id: -13, title: 'Biometric authentication', description: '' },
-        ],
-    },
-    {
-        id: -2,
-        name: 'IDEXA Packaging',
-        slug: 'packaging',
-        tagline: 'Sustainable, protective, and brand-ready packaging systems.',
-        description:
-            'Advanced packaging programs that combine material performance, product protection, anti-counterfeit features, and sustainability.',
-        hero_image:
-            'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=1200&q=80&auto=format&fit=crop',
-        color: '#247857',
-        order: 2,
-        services: [
-            { id: -21, title: 'Sustainable packaging', description: '' },
-            { id: -22, title: 'Track and trace', description: '' },
-            { id: -23, title: 'Brand protection', description: '' },
-        ],
-    },
-    {
-        id: -3,
-        name: 'IDEXA Printing',
-        slug: 'printing',
-        tagline: 'Commercial and secure print production at dependable scale.',
-        description:
-            'Premium printing for publications, education, official documents, large-format campaigns, and secure business communications.',
-        hero_image:
-            'https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?w=1200&q=80&auto=format&fit=crop',
-        color: '#9f6b1d',
-        order: 3,
-        services: [
-            { id: -31, title: 'Security printing', description: '' },
-            { id: -32, title: 'Commercial print', description: '' },
-            { id: -33, title: 'Variable data', description: '' },
-        ],
-    },
-    {
-        id: -4,
-        name: 'IDEXA Education',
-        slug: 'education',
-        tagline: 'Learning products and consulting for modern institutions.',
-        description:
-            'Educational content, institutional supplies, learning systems, and consulting support for public and private education teams.',
-        hero_image:
-            'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1200&q=80&auto=format&fit=crop',
-        color: '#384d91',
-        order: 4,
-        services: [
-            { id: -41, title: 'Curriculum support', description: '' },
-            { id: -42, title: 'Learning systems', description: '' },
-            { id: -43, title: 'Institutional supply', description: '' },
-        ],
-    },
-    {
-        id: -5,
-        name: 'Tawzea by IDEXA',
-        slug: 'tawzea',
-        tagline:
-            'Smart distribution and logistics with operational visibility.',
-        description:
-            'End-to-end distribution, warehousing, tracking, and delivery services designed for sensitive, high-value, and time-critical work.',
-        hero_image:
-            'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&q=80&auto=format&fit=crop',
-        color: '#0f766e',
-        order: 5,
-        services: [
-            { id: -51, title: 'Nationwide delivery', description: '' },
-            { id: -52, title: 'Warehouse management', description: '' },
-            { id: -53, title: 'Track and trace', description: '' },
-        ],
-    },
-];
+// const fallbackDivisions: Division[] = [
+//     {
+//         id: -1,
+//         name: 'IDEXA Security',
+//         slug: 'security',
+//         tagline:
+//             'Secure identity, credentials, and data protection for critical operations.',
+//         description:
+//             'High-security identity, authentication, and personalization solutions for government, banking, telecom, travel, and enterprise environments.',
+//         hero_image:
+//             'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1200&q=80&auto=format&fit=crop',
+//         color: '#0e7490',
+//         order: 1,
+//         services: [
+//             { id: -11, title: 'Secure ID production', description: '' },
+//             { id: -12, title: 'Card personalization', description: '' },
+//             { id: -13, title: 'Biometric authentication', description: '' },
+//         ],
+//     },
+//     {
+//         id: -2,
+//         name: 'IDEXA Packaging',
+//         slug: 'packaging',
+//         tagline: 'Sustainable, protective, and brand-ready packaging systems.',
+//         description:
+//             'Advanced packaging programs that combine material performance, product protection, anti-counterfeit features, and sustainability.',
+//         hero_image:
+//             'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=1200&q=80&auto=format&fit=crop',
+//         color: '#247857',
+//         order: 2,
+//         services: [
+//             { id: -21, title: 'Sustainable packaging', description: '' },
+//             { id: -22, title: 'Track and trace', description: '' },
+//             { id: -23, title: 'Brand protection', description: '' },
+//         ],
+//     },
+//     {
+//         id: -3,
+//         name: 'IDEXA Printing',
+//         slug: 'printing',
+//         tagline: 'Commercial and secure print production at dependable scale.',
+//         description:
+//             'Premium printing for publications, education, official documents, large-format campaigns, and secure business communications.',
+//         hero_image:
+//             'https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?w=1200&q=80&auto=format&fit=crop',
+//         color: '#9f6b1d',
+//         order: 3,
+//         services: [
+//             { id: -31, title: 'Security printing', description: '' },
+//             { id: -32, title: 'Commercial print', description: '' },
+//             { id: -33, title: 'Variable data', description: '' },
+//         ],
+//     },
+//     {
+//         id: -4,
+//         name: 'IDEXA Education',
+//         slug: 'education',
+//         tagline: 'Learning products and consulting for modern institutions.',
+//         description:
+//             'Educational content, institutional supplies, learning systems, and consulting support for public and private education teams.',
+//         hero_image:
+//             'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1200&q=80&auto=format&fit=crop',
+//         color: '#384d91',
+//         order: 4,
+//         services: [
+//             { id: -41, title: 'Curriculum support', description: '' },
+//             { id: -42, title: 'Learning systems', description: '' },
+//             { id: -43, title: 'Institutional supply', description: '' },
+//         ],
+//     },
+//     {
+//         id: -5,
+//         name: 'Tawzea by IDEXA',
+//         slug: 'tawzea',
+//         tagline:
+//             'Smart distribution and logistics with operational visibility.',
+//         description:
+//             'End-to-end distribution, warehousing, tracking, and delivery services designed for sensitive, high-value, and time-critical work.',
+//         hero_image:
+//             'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&q=80&auto=format&fit=crop',
+//         color: '#0f766e',
+//         order: 5,
+//         services: [
+//             { id: -51, title: 'Nationwide delivery', description: '' },
+//             { id: -52, title: 'Warehouse management', description: '' },
+//             { id: -53, title: 'Track and trace', description: '' },
+//         ],
+//     },
+// ];
 
 const fallbackPartners: Partner[] = [
     { id: -1, name: 'Thales Group', logo: null, website: '#' },
@@ -174,17 +180,40 @@ const featuredPartners = computed(() =>
     props.partners?.length ? props.partners.slice(0, 8) : fallbackPartners,
 );
 
-const about = computed(() => ({
-    home_title:
-        props.about?.home_title ||
-        `${appName.value} brings critical business services into one coordinated group.`,
-    home_text:
-        props.about?.home_text ||
-        'From secure identity and specialized printing to packaging, education, and logistics, we help organizations move faster with reliable execution and one connected delivery partner.',
-    home_image:
-        props.about?.home_image ||
-        '/images/modern_control_center.png',
-}));
+const about = computed(() => {
+    const isAr = locale.value === 'ar';
+    
+    return {
+        home_title:
+            (isAr ? props.about?.home_title_ar : props.about?.home_title) ||
+            props.about?.home_title ||
+            `${appName.value} ${t('brings critical business services into one coordinated group.')}`,
+        home_text:
+            (isAr ? props.about?.home_text_ar : props.about?.home_text) ||
+            props.about?.home_text ||
+            `${t('From secure identity and specialized printing to packaging, education, and logistics, we help organizations move faster with reliable execution and one connected delivery partner.')}`,
+        home_image:
+            props.about?.home_image ||
+            'https://e7group.ae/public/assets/img/home_bg.jpg',
+        home_delivery_label:
+            (isAr ? props.about?.home_delivery_label_ar : props.about?.home_delivery_label) ||
+            props.about?.home_delivery_label || t('Delivery Model'),
+        home_delivery_text:
+            (isAr ? props.about?.home_delivery_text_ar : props.about?.home_delivery_text) ||
+            props.about?.home_delivery_text || t('Design, produce, protect, and deliver from one coordinated platform.'),
+        home_features:
+            props.about?.home_features?.length
+                ? props.about.home_features.map(f => ({
+                    title: (isAr ? f.title_ar : f.title) || f.title || t(f.title),
+                    description: (isAr ? f.description_ar : f.description) || f.description || t(f.description),
+                    icon: f.icon
+                }))
+                : [
+                      { title: t('One accountable group'), description: t('Connected teams reduce handoffs and keep complex programs moving.'), icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
+                      { title: t('Specialized execution'), description: t('Each business unit brings focused expertise for demanding work.'), icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
+                  ],
+    };
+});
 
 const statValue = (value: string | undefined, fallback: string) =>
     value && value !== 'null' ? value : fallback;
@@ -279,21 +308,24 @@ const emailHref = computed(
         <!-- Hero Section -->
         <section id="top" class="relative min-h-screen flex items-center justify-center overflow-hidden">
             <div class="absolute inset-0 z-0">
-                <img src="/images/hero_background.png" class="w-full h-full object-cover scale-105 animate-[pulse_20s_ease-in-out_infinite]" alt="Hero Background">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover scale-105">
+                    <source src="https://e7group.ae/public/assets/img/banner/home_banner.mp4" type="video/mp4">
+                </video>
+                <!-- <img src="/images/hero_background.png" class="w-full h-full object-cover scale-105 animate-[pulse_20s_ease-in-out_infinite]" alt="Hero Background"> -->
                 <div class="absolute inset-0 bg-white/70 dark:bg-slate-950/80 backdrop-blur-[2px] transition-colors duration-300"></div>
                 <!-- Glowing Orbs / Gradient -->
                 <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.15)_0%,transparent_60%)]"></div>
             </div>
 
             <div class="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 pt-32 pb-20 text-center">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-md mb-8 shadow-[0_0_15px_rgba(6,182,212,0.1)] dark:shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                <!-- <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-md mb-8 shadow-[0_0_15px_rgba(6,182,212,0.1)] dark:shadow-[0_0_15px_rgba(6,182,212,0.2)]">
                     <span class="w-2 h-2 rounded-full bg-cyan-600 dark:bg-cyan-400 animate-pulse"></span>
                     <span class="text-xs font-bold tracking-[0.2em] text-cyan-700 dark:text-cyan-400 uppercase">{{ appName }}</span>
-                </div>
+                </div> -->
                 
                 <h1 class="mx-auto max-w-5xl text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-slate-900 dark:text-white uppercase leading-[1.1] transition-colors duration-300">
                     {{ t('Secure identity, print,') }} <br class="hidden md:block"/>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-teal-500 dark:from-cyan-400 dark:to-teal-200 drop-shadow-[0_0_10px_rgba(6,182,212,0.2)] dark:drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]">
+                    <span class="text-transparent bg-clip-text bg-cyan-600 dark:from-cyan-400 dark:to-teal-200 drop-shadow-[0_0_10px_rgba(6,182,212,0.2)] dark:drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]">
                         {{ t('packaging.') }}
                     </span>
                 </h1>
@@ -338,17 +370,17 @@ const emailHref = computed(
                     <div class="order-2 lg:order-1 relative">
                         <div class="absolute -inset-4 bg-gradient-to-tr from-cyan-400/20 to-teal-400/5 dark:from-cyan-500/20 dark:to-teal-500/5 rounded-3xl blur-2xl"></div>
                         <div class="relative rounded-3xl overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 shadow-2xl transition-colors duration-300">
-                            <img :src="about.home_image" alt="IDEXA Operations" class="w-full h-full object-cover min-h-[500px]" loading="lazy" />
+                            <img :src="about.home_image" alt="IDEXA Operations" class="w-full h-full object-cover min-h-[600px]" loading="lazy" />
                             <div class="absolute inset-0 bg-gradient-to-t from-white via-white/40 dark:from-slate-950 dark:via-slate-950/40 to-transparent transition-colors duration-300"></div>
                             
                             <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12">
                                 <div class="rounded-2xl border border-slate-200 dark:border-white/10 bg-white/90 dark:bg-slate-950/60 backdrop-blur-xl p-6 shadow-xl transition-colors duration-300">
                                     <p class="text-xs font-bold tracking-[0.2em] text-cyan-600 dark:text-cyan-400 uppercase flex items-center gap-2">
                                         <ShieldCheck class="w-4 h-4" />
-                                        {{ t('Delivery Model') }}
+                                        {{ about.home_delivery_label }}
                                     </p>
                                     <p class="mt-4 text-xl md:text-2xl font-bold text-slate-900 dark:text-white leading-tight transition-colors">
-                                        {{ t('Design, produce, protect, and deliver from one coordinated platform.') }}
+                                        {{ about.home_delivery_text }}
                                     </p>
                                 </div>
                             </div>
@@ -368,19 +400,15 @@ const emailHref = computed(
                         </p>
                         
                         <div class="grid gap-6 sm:grid-cols-2">
-                            <div class="rounded-2xl border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-slate-900/50 p-6 backdrop-blur-sm transition-all hover:border-cyan-500/30 shadow-sm dark:shadow-none">
-                                <div class="w-10 h-10 rounded-full bg-cyan-100 dark:bg-cyan-500/10 flex items-center justify-center mb-4 text-cyan-600 dark:text-cyan-400">
-                                    <Building2 class="w-5 h-5" />
+                            <div v-for="(feature, idx) in about.home_features" :key="idx" class="rounded-2xl border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-slate-900/50 p-6 backdrop-blur-sm transition-all hover:border-cyan-500/30 shadow-sm dark:shadow-none">
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center mb-4" :class="idx % 2 === 0 ? 'bg-cyan-100 dark:bg-cyan-500/10 text-cyan-600 dark:text-cyan-400' : 'bg-teal-100 dark:bg-teal-500/10 text-teal-600 dark:text-teal-400'">
+                                    <svg v-if="feature.icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="feature.icon" />
+                                    </svg>
+                                    <Building2 v-else class="w-5 h-5" />
                                 </div>
-                                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2 transition-colors">{{ t('One accountable group') }}</h3>
-                                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed transition-colors">{{ t('Connected teams reduce handoffs and keep complex programs moving.') }}</p>
-                            </div>
-                            <div class="rounded-2xl border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-slate-900/50 p-6 backdrop-blur-sm transition-all hover:border-cyan-500/30 shadow-sm dark:shadow-none">
-                                <div class="w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-500/10 flex items-center justify-center mb-4 text-teal-600 dark:text-teal-400">
-                                    <ShieldCheck class="w-5 h-5" />
-                                </div>
-                                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2 transition-colors">{{ t('Specialized execution') }}</h3>
-                                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed transition-colors">{{ t('Each business unit brings focused expertise for demanding work.') }}</p>
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2 transition-colors">{{ feature.title }}</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed transition-colors">{{ feature.description }}</p>
                             </div>
                         </div>
                     </div>
@@ -389,7 +417,7 @@ const emailHref = computed(
         </section>
 
         <!-- Capabilities (Bento Box) -->
-        <section id="expertise" class="scroll-mt-24 py-24 lg:py-32 relative bg-slate-100/50 dark:bg-slate-900/20 border-y border-slate-200 dark:border-white/5 transition-colors duration-300">
+        <section id="expertise" class="scroll-mt-24 py-24 lg:py-32 relative bg-slate-100/10 dark:bg-slate-900/20 border-y border-slate-200 dark:border-white/5 transition-colors duration-300">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-16">
                     <p class="mb-4 text-sm font-bold tracking-[0.2em] text-cyan-600 dark:text-cyan-500 uppercase">{{ t('Capabilities') }}</p>
@@ -403,35 +431,45 @@ const emailHref = computed(
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <article v-for="(division, index) in landingDivisions" :key="division.id" 
-                        class="group relative rounded-3xl overflow-hidden bg-white/90 dark:bg-slate-900/80 border border-slate-200 dark:border-white/10 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 shadow-lg hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] dark:shadow-none dark:hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
+                        class="group relative flex flex-col rounded-3xl overflow-hidden bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-white/10 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 shadow-lg hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] dark:shadow-none dark:hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
                         :class="[index === 0 || index === 3 ? 'lg:col-span-2' : 'lg:col-span-1']"
                     >
-                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/80 to-white dark:via-slate-950/80 dark:to-slate-950 z-10 pointer-events-none transition-colors duration-300"></div>
-                        <img :src="division.hero_image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&q=80&auto=format&fit=crop'" :alt="division.name" class="absolute inset-0 w-full h-full object-cover opacity-10 dark:opacity-40 grayscale dark:grayscale-0 transition-all duration-700 group-hover:scale-110 group-hover:opacity-20 dark:group-hover:opacity-60" loading="lazy" />
-                        
-                        <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/0 to-transparent group-hover:from-cyan-500/5 dark:group-hover:from-cyan-500/10 transition-colors z-10 pointer-events-none"></div>
-
-                        <div class="relative z-20 h-full flex flex-col p-8 justify-end min-h-[360px]">
-                            <div class="mb-auto">
-                                <div class="w-12 h-12 rounded-2xl bg-white/50 dark:bg-white/10 backdrop-blur-md border border-slate-200 dark:border-white/20 flex items-center justify-center text-slate-900 dark:text-white mb-6 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 group-hover:border-cyan-400/50 transition-all duration-300">
-                                    <component :is="divisionIcon(division.name)" class="h-6 w-6" />
-                                </div>
-                            </div>
+                        <!-- Image area -->
+                        <div class="relative overflow-hidden" :class="[index === 0 || index === 3 ? 'h-56' : 'h-48']">
+                            <img 
+                                :src="division.hero_image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&q=80&auto=format&fit=crop'" 
+                                :alt="division.name" 
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                loading="lazy" 
+                            />
+                            <div class="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent dark:from-slate-900/70 pointer-events-none transition-colors duration-300"></div>
                             
-                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3 transition-colors">{{ division.name }}</h3>
-                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6 max-w-lg transition-colors">
-                                {{ excerpt(division.description, 120) }}
+                            <!-- Icon badge floating on the image -->
+                            <div class="absolute bottom-4 left-6 w-11 h-11 rounded-xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border border-slate-200/80 dark:border-white/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400 shadow-md transition-all duration-300 group-hover:shadow-lg group-hover:scale-110">
+                                <component :is="divisionIcon(division.name)" class="h-5 w-5" />
+                            </div>
+                        </div>
+
+                        <!-- Content area -->
+                        <div class="flex flex-col flex-1 p-6 pt-5">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 transition-colors">
+                                {{ (locale === 'ar' ? division.name_ar : division.name) || division.name }}
+                            </h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5 transition-colors">
+                                {{ excerpt((locale === 'ar' ? division.description_ar : division.description) || division.description, 120) }}
                             </p>
                             
-                            <div class="flex flex-wrap gap-2 mb-6">
-                                <span v-for="service in division.services.slice(0, 3)" :key="service.id" class="rounded-full border border-slate-200 dark:border-white/10 bg-slate-100/50 dark:bg-white/5 px-3 py-1 text-xs font-medium text-slate-700 dark:text-slate-300 backdrop-blur-md transition-colors">
+                            <div class="flex flex-wrap gap-2 mb-5">
+                                <span v-for="service in division.services.slice(0, 3)" :key="service.id" class="rounded-full border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 py-1 text-xs font-medium text-slate-700 dark:text-slate-300 transition-colors">
                                     {{ service.title }}
                                 </span>
                             </div>
 
-                            <a href="#contact" class="inline-flex items-center gap-2 text-sm font-bold tracking-[0.1em] text-cyan-600 dark:text-cyan-400 uppercase hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors">
-                                {{ t('Request') }} <ArrowRight class="h-4 w-4 rtl:rotate-180" />
-                            </a>
+                            <div class="mt-auto">
+                                <a href="#contact" class="inline-flex items-center gap-2 text-sm font-bold tracking-[0.1em] text-cyan-600 dark:text-cyan-400 uppercase hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors">
+                                    {{ t('Request') }} <ArrowRight class="h-4 w-4 rtl:rotate-180" />
+                                </a>
+                            </div>
                         </div>
                     </article>
                 </div>
