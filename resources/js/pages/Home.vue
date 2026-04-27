@@ -1,182 +1,632 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import ContactForm from '@/components/corporate/ContactForm.vue';
+import { usePage } from '@inertiajs/vue3';
+import {
+    ArrowRight,
+    Building2,
+    CheckCircle2,
+    ChevronRight,
+    Factory,
+    Fingerprint,
+    GraduationCap,
+    Leaf,
+    Mail,
+    MapPin,
+    Package,
+    Phone,
+    Printer,
+    ShieldCheck,
+    Truck,
+} from 'lucide-vue-next';
+import { computed } from 'vue';
+
+type Service = {
+    id: number;
+    title: string;
+    description: string;
+};
+
+type Division = {
+    id: number;
+    name: string;
+    slug: string;
+    tagline: string | null;
+    description: string | null;
+    hero_image: string | null;
+    color: string | null;
+    order: number;
+    services: Service[];
+};
+
+type Partner = {
+    id: number;
+    name: string;
+    logo: string | null;
+    website: string;
+};
 
 const props = defineProps<{
     about: {
         home_title: string | null;
         home_text: string | null;
         home_image: string | null;
-    } | null
-    divisions: Array<{
-        id: number
-        name: string
-        slug: string
-        tagline: string | null
-        description: string | null
-        hero_image: string | null
-        color: string | null
-        order: number
-        services: Array<{ id: number; title: string; description: string }>
-    }>
-    partners: Array<{
-        id: number
-        name: string
-        logo: string | null
-        website: string
-    }>
+    } | null;
+    divisions: Division[];
+    partners: Partner[];
     stats: {
-        founded: string
-        countries: string
-        employees: string
-        projects: string
-    }
-}>()
+        founded: string;
+        countries: string;
+        employees: string;
+        projects: string;
+    };
+}>();
+
+const page = usePage();
+const appName = computed(() => (page.props.name as string) || 'IDEXA Group');
+const settings = computed(() => page.props.settings as Record<string, string>);
+
+const fallbackDivisions: Division[] = [
+    {
+        id: -1,
+        name: 'IDEXA Security',
+        slug: 'security',
+        tagline:
+            'Secure identity, credentials, and data protection for critical operations.',
+        description:
+            'High-security identity, authentication, and personalization solutions for government, banking, telecom, travel, and enterprise environments.',
+        hero_image:
+            'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1200&q=80&auto=format&fit=crop',
+        color: '#0e7490',
+        order: 1,
+        services: [
+            { id: -11, title: 'Secure ID production', description: '' },
+            { id: -12, title: 'Card personalization', description: '' },
+            { id: -13, title: 'Biometric authentication', description: '' },
+        ],
+    },
+    {
+        id: -2,
+        name: 'IDEXA Packaging',
+        slug: 'packaging',
+        tagline: 'Sustainable, protective, and brand-ready packaging systems.',
+        description:
+            'Advanced packaging programs that combine material performance, product protection, anti-counterfeit features, and sustainability.',
+        hero_image:
+            'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=1200&q=80&auto=format&fit=crop',
+        color: '#247857',
+        order: 2,
+        services: [
+            { id: -21, title: 'Sustainable packaging', description: '' },
+            { id: -22, title: 'Track and trace', description: '' },
+            { id: -23, title: 'Brand protection', description: '' },
+        ],
+    },
+    {
+        id: -3,
+        name: 'IDEXA Printing',
+        slug: 'printing',
+        tagline: 'Commercial and secure print production at dependable scale.',
+        description:
+            'Premium printing for publications, education, official documents, large-format campaigns, and secure business communications.',
+        hero_image:
+            'https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?w=1200&q=80&auto=format&fit=crop',
+        color: '#9f6b1d',
+        order: 3,
+        services: [
+            { id: -31, title: 'Security printing', description: '' },
+            { id: -32, title: 'Commercial print', description: '' },
+            { id: -33, title: 'Variable data', description: '' },
+        ],
+    },
+    {
+        id: -4,
+        name: 'IDEXA Education',
+        slug: 'education',
+        tagline: 'Learning products and consulting for modern institutions.',
+        description:
+            'Educational content, institutional supplies, learning systems, and consulting support for public and private education teams.',
+        hero_image:
+            'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1200&q=80&auto=format&fit=crop',
+        color: '#384d91',
+        order: 4,
+        services: [
+            { id: -41, title: 'Curriculum support', description: '' },
+            { id: -42, title: 'Learning systems', description: '' },
+            { id: -43, title: 'Institutional supply', description: '' },
+        ],
+    },
+    {
+        id: -5,
+        name: 'Tawzea by IDEXA',
+        slug: 'tawzea',
+        tagline:
+            'Smart distribution and logistics with operational visibility.',
+        description:
+            'End-to-end distribution, warehousing, tracking, and delivery services designed for sensitive, high-value, and time-critical work.',
+        hero_image:
+            'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&q=80&auto=format&fit=crop',
+        color: '#0f766e',
+        order: 5,
+        services: [
+            { id: -51, title: 'Nationwide delivery', description: '' },
+            { id: -52, title: 'Warehouse management', description: '' },
+            { id: -53, title: 'Track and trace', description: '' },
+        ],
+    },
+];
+
+const fallbackPartners: Partner[] = [
+    { id: -1, name: 'Thales Group', logo: null, website: '#' },
+    { id: -2, name: 'IDEMIA', logo: null, website: '#' },
+    { id: -3, name: 'HID Global', logo: null, website: '#' },
+    { id: -4, name: 'SITA', logo: null, website: '#' },
+    { id: -5, name: 'SGS Group', logo: null, website: '#' },
+    { id: -6, name: 'Giesecke+Devrient', logo: null, website: '#' },
+];
+
+const landingDivisions = computed(() =>
+    props.divisions.length ? props.divisions : fallbackDivisions,
+);
+const featuredPartners = computed(() =>
+    props.partners.length ? props.partners.slice(0, 8) : fallbackPartners,
+);
 
 const about = computed(() => ({
-    home_title: props.about?.home_title || 'Integrated solutions for modern business.',
+    home_title:
+        props.about?.home_title ||
+        `${appName.value} brings critical business services into one coordinated group.`,
     home_text:
         props.about?.home_text ||
-        'Amin Group brings together specialist teams, reliable operations, and trusted partnerships to support organisations across the Kingdom of Saudi Arabia.',
-    home_image: props.about?.home_image || 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80',
-}))
+        'From secure identity and specialized printing to packaging, education, and logistics, we help organizations move faster with reliable execution and one connected delivery partner.',
+    home_image:
+        props.about?.home_image ||
+        'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80&auto=format&fit=crop',
+}));
 
-const featuredDivisions = computed(() => props.divisions.slice(0, 4))
-const featuredPartners = computed(() => props.partners.slice(0, 6))
-const statValue = (value: string, fallback: string) => (value && value !== 'null' ? value : fallback)
+const statValue = (value: string, fallback: string) =>
+    value && value !== 'null' ? value : fallback;
+const backingLabel = computed(() =>
+    /^\d{4}/.test(props.stats.founded || '') ? 'Founded' : 'Backed By',
+);
 const statItems = computed(() => [
-    { value: statValue(props.stats.founded, '2020'), label: 'Founded' },
-    { value: statValue(props.stats.countries, 'KSA'), label: 'Markets Served' },
-    { value: statValue(props.stats.employees, '50+'), label: 'Professionals' },
-    { value: statValue(props.stats.projects, '100+'), label: 'Projects' },
-])
+    { value: statValue(props.stats.founded, 'ADQ'), label: backingLabel.value },
+    { value: statValue(props.stats.countries, 'KSA+'), label: 'Market Reach' },
+    {
+        value: statValue(props.stats.employees, '1,000+'),
+        label: 'Professionals',
+    },
+    {
+        value: statValue(props.stats.projects, '500+'),
+        label: 'Projects Delivered',
+    },
+]);
 
-const excerpt = (value: string | null, limit = 95) => {
-    const text = value?.trim()
+const processSteps = [
+    {
+        title: 'Map the requirement',
+        text: 'We clarify the operational, compliance, delivery, and customer experience needs before recommending a path.',
+    },
+    {
+        title: 'Design the solution',
+        text: 'Specialists from the right business units shape the scope, process, material, data, and service model.',
+    },
+    {
+        title: 'Execute with control',
+        text: 'Production, personalization, fulfillment, and delivery are coordinated through accountable operating teams.',
+    },
+    {
+        title: 'Improve continuously',
+        text: 'Performance signals, client feedback, and quality checks feed the next round of operational improvement.',
+    },
+];
+
+const commitments = [
+    {
+        title: 'Secure by design',
+        text: 'Sensitive data, documents, credentials, and materials are handled with strict process discipline.',
+        icon: ShieldCheck,
+    },
+    {
+        title: 'Built for scale',
+        text: 'Programs are planned for dependable volume, repeatable delivery, and cross-unit coordination.',
+        icon: Factory,
+    },
+    {
+        title: 'Sustainability in motion',
+        text: 'Materials, routing, packaging, and production choices are shaped around lower waste and smarter resource use.',
+        icon: Leaf,
+    },
+];
+
+const divisionIcon = (name: string) => {
+    const lowerName = name.toLowerCase();
+
+    if (lowerName.includes('security')) return Fingerprint;
+    if (lowerName.includes('packaging')) return Package;
+    if (lowerName.includes('printing')) return Printer;
+    if (lowerName.includes('education')) return GraduationCap;
+    if (lowerName.includes('tawzea') || lowerName.includes('logistics'))
+        return Truck;
+
+    return Building2;
+};
+
+const excerpt = (value: string | null, limit = 150) => {
+    const text = value?.trim();
 
     if (!text) {
-        return 'Specialised services delivered by experienced teams with dependable execution.'
+        return 'Specialized services delivered by experienced teams with dependable execution.';
     }
 
-    return text.length > limit ? `${text.slice(0, limit).trim()}...` : text
-}
+    return text.length > limit ? `${text.slice(0, limit).trim()}...` : text;
+};
+
+const phoneHref = computed(
+    () =>
+        `tel:${(settings.value.phone || '+966000000000').replace(/[^\d+]/g, '')}`,
+);
+const emailHref = computed(
+    () => `mailto:${settings.value.email || 'info@idexa.sa'}`,
+);
 </script>
 
 <template>
-    <div>
-        <!-- Hero Section -->
-        <section class="relative min-h-screen flex items-center overflow-hidden bg-[#222222]">
-            <!-- Background photo -->
+    <div class="bg-[#f5f1e8] text-[#1f2933]">
+        <!-- Hero -->
+        <section
+            id="top"
+            class="relative min-h-[88vh] overflow-hidden bg-[#161616] lg:min-h-[92vh]"
+        >
             <div class="absolute inset-0">
                 <video
                     src="https://e7group.ae/public/assets/img/banner/home_banner.mp4"
-                    class="w-full h-full object-cover"
+                    class="h-full w-full object-cover"
                     autoplay
                     muted
                     loop
                     playsinline
                 />
-                <div class="absolute inset-0 bg-black/40" />
+                <div class="absolute inset-0 bg-black/55" />
+                <div
+                    class="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,21,32,0.92)_0%,rgba(8,21,32,0.58)_48%,rgba(8,21,32,0.2)_100%)]"
+                />
             </div>
 
-            <!-- Content -->
-            <div class="relative w-full max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-20 mt-10">
-                <Transition
-                    appear
-                    enter-active-class="transition-all duration-1000 ease-out"
-                    enter-from-class="opacity-0 translate-y-8"
-                    enter-to-class="opacity-100 translate-y-0"
+            <div
+                class="relative mx-auto flex min-h-[88vh] max-w-7xl items-end px-6 pt-36 pb-12 lg:min-h-[92vh] lg:px-8 lg:pb-16"
+            >
+                <div class="max-w-5xl">
+                    <p
+                        class="mb-5 text-xs font-bold tracking-[0.38em] text-[#00c4cc] uppercase"
+                    >
+                        {{ appName }}
+                    </p>
+                    <h1
+                        class="max-w-5xl text-5xl leading-[0.92] font-bold tracking-normal text-white uppercase sm:text-6xl md:text-7xl lg:text-8xl"
+                    >
+                        Secure identity, print, packaging and logistics under
+                        one roof.
+                    </h1>
+                    <p
+                        class="mt-7 max-w-2xl text-base leading-8 text-white/76 md:text-lg"
+                    >
+                        A single landing point for specialized business services
+                        across Saudi Arabia, built for organizations that need
+                        precision, reliability, and accountable delivery.
+                    </p>
+                    <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+                        <a
+                            href="#contact"
+                            class="inline-flex items-center justify-center gap-3 rounded-full bg-[#00c4cc] px-7 py-4 text-sm font-bold tracking-widest text-[#09212b] uppercase transition-colors duration-300 hover:bg-white"
+                        >
+                            Start a Project
+                            <ArrowRight class="h-4 w-4" />
+                        </a>
+                        <a
+                            href="#expertise"
+                            class="inline-flex items-center justify-center gap-3 rounded-full border border-white/35 px-7 py-4 text-sm font-bold tracking-widest text-white uppercase transition-colors duration-300 hover:border-white hover:bg-white hover:text-[#09212b]"
+                        >
+                            Explore Capabilities
+                            <ChevronRight class="h-4 w-4" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Proof -->
+        <section class="border-b border-[#1f2933]/10 bg-white">
+            <div
+                class="mx-auto grid max-w-7xl grid-cols-2 gap-px bg-[#1f2933]/10 px-6 lg:grid-cols-4 lg:px-8"
+            >
+                <div
+                    v-for="stat in statItems"
+                    :key="stat.label"
+                    class="bg-white py-8 md:py-10"
                 >
-                    <div class="max-w-[1000px]">
-                        <h1 class="text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-[6.5rem] font-bold text-white uppercase leading-[0.9] tracking-tighter mix-blend-normal">
-                            TRUSTED<br />
-                            SOLUTIONS FOR<br />
-                            YOUR BUSINESS<br />
-                            ACROSS THE KSA
-                        </h1>
-                    </div>
-                </Transition>
-            </div>
-
-            <div class="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/70 animate-bounce">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
-            </div>
-        </section>
-
-        <!-- Stats -->
-        <section class="bg-white border-b border-[#eaeaea]">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div
-                        v-for="stat in statItems"
-                        :key="stat.label"
-                        class="border-l-2 border-[#00C4CC] pl-5"
-                    >
-                        <div class="text-3xl md:text-4xl font-bold text-[#222222]">{{ stat.value }}</div>
-                        <div class="mt-2 text-xs uppercase tracking-widest text-[#222222]/50 font-bold">{{ stat.label }}</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Us Section -->
-        <section class="py-24 lg:py-32 bg-[#F2F2F2]">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8">
-                <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-                    <div>
-                        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#222222] leading-[1.15] tracking-tight mb-8">
-                            {{ about.home_title }}
-                        </h2>
-                        <div class="space-y-6 text-[#222222]/70 text-lg leading-relaxed mb-10 whitespace-pre-wrap">{{ about.home_text }}</div>
-                        <Link href="/about" class="inline-flex items-center justify-center px-8 py-3.5 border border-[#00C4CC] text-[#00C4CC] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#00C4CC] hover:text-white transition-all duration-300">
-                            View More
-                        </Link>
-                    </div>
-                    <div class="relative w-full h-full min-h-[400px]">
-                        <img
-                            :src="about.home_image"
-                            alt="e7 Group operations"
-                            class="absolute inset-0 w-full h-full object-cover"
-                            loading="lazy"
-                        />
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Business Expertise Cards -->
-        <section class="py-24 lg:py-32 bg-white">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8">
-                <div class="mb-16">
-                    <h2 class="text-4xl md:text-5xl font-bold text-[#222222] tracking-tight">Areas of Expertise</h2>
-                </div>
-
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div
-                        v-for="division in featuredDivisions"
-                        :key="division.id"
-                        class="bg-white border border-[#eaeaea] group hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col h-full"
-                    >
-                        <div class="relative w-full h-52 overflow-hidden bg-[#222222]">
-                            <img
-                                :src="division.hero_image || 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&q=80'"
-                                :alt="division.name"
-                                class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
-                            />
+                    <div class="px-4 md:px-6">
+                        <div
+                            class="text-3xl font-bold text-[#12343b] md:text-5xl"
+                        >
+                            {{ stat.value }}
                         </div>
-                        <div class="p-8 flex flex-col flex-1">
-                            <h3 class="text-2xl font-bold text-[#222222] mb-3">{{ division.name }}</h3>
-                            <p class="text-[#222222]/60 text-sm leading-relaxed mb-8 flex-1">
+                        <div
+                            class="mt-2 text-[11px] font-bold tracking-[0.22em] text-[#6b7280] uppercase"
+                        >
+                            {{ stat.label }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section id="about" class="scroll-mt-24 bg-[#f5f1e8] py-24 lg:py-32">
+            <div
+                class="mx-auto grid max-w-7xl gap-14 px-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:px-8"
+            >
+                <div>
+                    <p
+                        class="mb-4 text-xs font-bold tracking-[0.28em] text-[#0e7490] uppercase"
+                    >
+                        What We Do
+                    </p>
+                    <h2
+                        class="text-4xl leading-tight font-bold tracking-normal text-[#1f2933] md:text-5xl"
+                    >
+                        {{ about.home_title }}
+                    </h2>
+                    <p
+                        class="mt-6 text-lg leading-8 whitespace-pre-wrap text-[#46535f]"
+                    >
+                        {{ about.home_text }}
+                    </p>
+                    <div class="mt-9 grid gap-4 sm:grid-cols-2">
+                        <div class="border-l-4 border-[#00c4cc] bg-white p-5">
+                            <p class="text-sm font-bold text-[#1f2933]">
+                                One accountable group
+                            </p>
+                            <p class="mt-2 text-sm leading-6 text-[#62717d]">
+                                Connected teams reduce handoffs and keep complex
+                                programs moving.
+                            </p>
+                        </div>
+                        <div class="border-l-4 border-[#c9a84c] bg-white p-5">
+                            <p class="text-sm font-bold text-[#1f2933]">
+                                Specialized execution
+                            </p>
+                            <p class="mt-2 text-sm leading-6 text-[#62717d]">
+                                Each business unit brings focused expertise for
+                                demanding work.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="relative min-h-[520px] overflow-hidden bg-[#12343b]"
+                >
+                    <img
+                        :src="about.home_image"
+                        alt="IDEXA operations"
+                        class="absolute inset-0 h-full w-full object-cover"
+                        loading="lazy"
+                    />
+                    <div
+                        class="absolute inset-0 bg-[linear-gradient(180deg,rgba(18,52,59,0)_0%,rgba(18,52,59,0.86)_100%)]"
+                    />
+                    <div class="absolute right-0 bottom-0 left-0 p-7 md:p-9">
+                        <div
+                            class="max-w-sm border border-white/20 bg-white/10 p-5 backdrop-blur-md"
+                        >
+                            <p
+                                class="text-xs font-bold tracking-[0.22em] text-[#00c4cc] uppercase"
+                            >
+                                Delivery Model
+                            </p>
+                            <p
+                                class="mt-3 text-2xl leading-tight font-bold text-white"
+                            >
+                                Design, produce, protect, and deliver from one
+                                coordinated platform.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expertise -->
+        <section
+            id="expertise"
+            class="scroll-mt-24 bg-[#101820] py-24 text-white lg:py-32"
+        >
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <div
+                    class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end"
+                >
+                    <div>
+                        <p
+                            class="mb-4 text-xs font-bold tracking-[0.28em] text-[#00c4cc] uppercase"
+                        >
+                            Areas of Expertise
+                        </p>
+                        <h2
+                            class="text-4xl leading-tight font-bold tracking-normal md:text-5xl"
+                        >
+                            Five specialist units. One sharper client
+                            experience.
+                        </h2>
+                    </div>
+                    <p
+                        class="max-w-2xl text-base leading-8 text-white/64 lg:ml-auto"
+                    >
+                        Instead of sending clients across separate vendors,
+                        IDEXA combines adjacent capabilities into one practical
+                        ecosystem for secure, physical, digital, and
+                        distribution work.
+                    </p>
+                </div>
+
+                <div class="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+                    <article
+                        v-for="division in landingDivisions"
+                        :key="division.id"
+                        class="group flex min-h-[470px] flex-col overflow-hidden border border-white/10 bg-white/[0.04] transition-all duration-300 hover:-translate-y-1 hover:border-[#00c4cc]/70"
+                    >
+                        <div class="relative h-48 overflow-hidden bg-[#1f2933]">
+                            <img
+                                :src="
+                                    division.hero_image ||
+                                    'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&q=80&auto=format&fit=crop'
+                                "
+                                :alt="division.name"
+                                class="h-full w-full object-cover opacity-72 transition-transform duration-700 group-hover:scale-105"
+                                loading="lazy"
+                            />
+                            <div
+                                class="absolute top-4 left-4 flex h-11 w-11 items-center justify-center bg-white text-[#12343b]"
+                            >
+                                <component
+                                    :is="divisionIcon(division.name)"
+                                    class="h-5 w-5"
+                                />
+                            </div>
+                        </div>
+                        <div class="flex flex-1 flex-col p-6">
+                            <h3
+                                class="text-xl leading-tight font-bold text-white"
+                            >
+                                {{ division.name }}
+                            </h3>
+                            <p class="mt-3 text-sm leading-6 text-white/62">
                                 {{ excerpt(division.description) }}
                             </p>
-                            <Link
-                                :href="`/capabilities/${division.slug}`"
-                                class="inline-flex w-full items-center justify-center px-6 py-3 border border-[#00C4CC] text-[#00C4CC] font-bold text-[11px] uppercase tracking-widest rounded-full hover:bg-[#00C4CC] hover:text-white transition-all duration-300"
+                            <div class="mt-6 flex flex-wrap gap-2">
+                                <span
+                                    v-for="service in division.services.slice(
+                                        0,
+                                        3,
+                                    )"
+                                    :key="service.id"
+                                    class="border border-white/10 px-3 py-1 text-[11px] font-bold tracking-wider text-white/70 uppercase"
+                                >
+                                    {{ service.title }}
+                                </span>
+                            </div>
+                            <a
+                                href="#contact"
+                                class="mt-auto inline-flex items-center gap-2 pt-8 text-xs font-bold tracking-[0.18em] text-[#00c4cc] uppercase"
                             >
-                                Contact Us
-                            </Link>
+                                Request this capability
+                                <ArrowRight class="h-4 w-4" />
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process -->
+        <section id="process" class="scroll-mt-24 bg-white py-24 lg:py-32">
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+                    <div>
+                        <p
+                            class="mb-4 text-xs font-bold tracking-[0.28em] text-[#9f6b1d] uppercase"
+                        >
+                            Operating Model
+                        </p>
+                        <h2
+                            class="text-4xl leading-tight font-bold tracking-normal text-[#1f2933] md:text-5xl"
+                        >
+                            A clear path from requirement to reliable delivery.
+                        </h2>
+                    </div>
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div
+                            v-for="(step, index) in processSteps"
+                            :key="step.title"
+                            class="border border-[#1f2933]/10 bg-[#f5f1e8] p-6"
+                        >
+                            <div class="flex items-center gap-4">
+                                <span
+                                    class="flex h-10 w-10 items-center justify-center bg-[#12343b] text-sm font-bold text-white"
+                                >
+                                    {{ index + 1 }}
+                                </span>
+                                <h3 class="text-lg font-bold text-[#1f2933]">
+                                    {{ step.title }}
+                                </h3>
+                            </div>
+                            <p class="mt-5 text-sm leading-7 text-[#62717d]">
+                                {{ step.text }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Commitment -->
+        <section
+            id="commitment"
+            class="scroll-mt-24 overflow-hidden bg-[#12343b] text-white"
+        >
+            <div class="grid lg:grid-cols-2">
+                <div class="relative min-h-[420px] lg:min-h-[760px]">
+                    <img
+                        src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1400&q=80&auto=format&fit=crop"
+                        alt="Professional team planning operations"
+                        class="absolute inset-0 h-full w-full object-cover"
+                        loading="lazy"
+                    />
+                    <div class="absolute inset-0 bg-[#12343b]/20" />
+                </div>
+                <div class="flex items-center px-6 py-20 lg:px-16 xl:px-24">
+                    <div class="max-w-xl">
+                        <p
+                            class="mb-4 text-xs font-bold tracking-[0.28em] text-[#c9a84c] uppercase"
+                        >
+                            Our Commitment
+                        </p>
+                        <h2
+                            class="text-4xl leading-tight font-bold tracking-normal md:text-5xl"
+                        >
+                            Professional delivery for work that cannot afford
+                            loose ends.
+                        </h2>
+                        <p class="mt-6 text-base leading-8 text-white/68">
+                            The work behind identity, printed documents,
+                            education supply, packaging, and logistics has to be
+                            secure, traceable, and consistent. Our operating
+                            culture is built around that standard.
+                        </p>
+                        <div class="mt-10 space-y-5">
+                            <div
+                                v-for="commitment in commitments"
+                                :key="commitment.title"
+                                class="flex gap-4 border-t border-white/12 pt-5"
+                            >
+                                <div
+                                    class="flex h-11 w-11 flex-none items-center justify-center bg-[#00c4cc] text-[#09212b]"
+                                >
+                                    <component
+                                        :is="commitment.icon"
+                                        class="h-5 w-5"
+                                    />
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-white">
+                                        {{ commitment.title }}
+                                    </h3>
+                                    <p
+                                        class="mt-2 text-sm leading-6 text-white/62"
+                                    >
+                                        {{ commitment.text }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -184,24 +634,46 @@ const excerpt = (value: string | null, limit = 95) => {
         </section>
 
         <!-- Partners -->
-        <section v-if="featuredPartners.length" class="py-20 lg:py-24 bg-[#F2F2F2]">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8">
-                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+        <section id="partners" class="scroll-mt-24 bg-[#f5f1e8] py-24 lg:py-32">
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
                     <div>
-                        <p class="text-xs font-bold uppercase tracking-widest text-[#00C4CC] mb-3">Partners</p>
-                        <h2 class="text-4xl md:text-5xl font-bold text-[#222222] tracking-tight">Trusted by leading teams</h2>
+                        <p
+                            class="mb-4 text-xs font-bold tracking-[0.28em] text-[#0e7490] uppercase"
+                        >
+                            Partners
+                        </p>
+                        <h2
+                            class="text-4xl leading-tight font-bold tracking-normal text-[#1f2933] md:text-5xl"
+                        >
+                            A stronger network for complex programs.
+                        </h2>
                     </div>
-                    <Link href="/partners" class="inline-flex items-center justify-center px-7 py-3 border border-[#00C4CC] text-[#00C4CC] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#00C4CC] hover:text-white transition-all duration-300">
-                        View Partners
-                    </Link>
+                    <p
+                        class="max-w-2xl text-base leading-8 text-[#62717d] lg:ml-auto"
+                    >
+                        We collaborate with technology, standards,
+                        institutional, and delivery partners to bring global
+                        capability into local execution.
+                    </p>
                 </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div class="mt-14 grid grid-cols-2 gap-3 md:grid-cols-4">
                     <a
                         v-for="partner in featuredPartners"
                         :key="partner.id"
-                        :href="partner.website || '/partners'"
-                        class="h-24 bg-white border border-[#eaeaea] flex items-center justify-center px-5 hover:border-[#00C4CC] transition-colors duration-300"
+                        :href="partner.website || '#'"
+                        class="flex min-h-28 items-center justify-center border border-[#1f2933]/10 bg-white px-5 text-center text-sm font-bold text-[#46535f] transition-colors duration-300 hover:border-[#00c4cc] hover:text-[#12343b]"
+                        :target="
+                            partner.website && partner.website !== '#'
+                                ? '_blank'
+                                : undefined
+                        "
+                        :rel="
+                            partner.website && partner.website !== '#'
+                                ? 'noopener noreferrer'
+                                : undefined
+                        "
                     >
                         <img
                             v-if="partner.logo"
@@ -210,67 +682,87 @@ const excerpt = (value: string | null, limit = 95) => {
                             class="max-h-12 max-w-full object-contain"
                             loading="lazy"
                         />
-                        <span v-else class="text-sm font-bold text-[#222222]/60 text-center leading-tight">{{ partner.name }}</span>
+                        <span v-else>{{ partner.name }}</span>
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- Bottom Feature Links (Investor Relations & Careers) -->
-        <section class="bg-white pb-24 lg:pb-32">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8">
-                <div class="grid md:grid-cols-2 gap-6 w-full h-[500px]">
+        <!-- Contact -->
+        <section id="contact" class="scroll-mt-24 bg-white py-24 lg:py-32">
+            <div
+                class="mx-auto grid max-w-7xl gap-14 px-6 lg:grid-cols-[0.82fr_1.18fr] lg:px-8"
+            >
+                <div>
+                    <p
+                        class="mb-4 text-xs font-bold tracking-[0.28em] text-[#0e7490] uppercase"
+                    >
+                        Contact
+                    </p>
+                    <h2
+                        class="text-4xl leading-tight font-bold tracking-normal text-[#1f2933] md:text-5xl"
+                    >
+                        Tell us what you need to build, protect, print, pack, or
+                        deliver.
+                    </h2>
+                    <p class="mt-6 text-base leading-8 text-[#62717d]">
+                        Share a brief and our team will connect you with the
+                        right specialists across the group.
+                    </p>
 
-                    <!-- Investor Relations -->
-                    <Link href="/partners" class="relative group block h-full w-full overflow-hidden bg-[#222222]">
-                        <img
-                            src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?w=900&q=80"
-                            alt="Investor Relations"
-                            class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000"
-                        />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                        <div class="absolute inset-x-0 bottom-0 p-10 flex items-center justify-between">
-                            <h3 class="text-3xl md:text-4xl font-bold text-white">Investor Relations</h3>
-                            <div class="w-14 h-14 bg-[#00C4CC] text-white flex items-center justify-center rotate-45 group-hover:rotate-0 transition-transform duration-500">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
-                                </svg>
-                            </div>
+                    <div class="mt-10 space-y-5">
+                        <a
+                            :href="emailHref"
+                            class="flex items-center gap-4 text-[#1f2933] transition-colors hover:text-[#0e7490]"
+                        >
+                            <span
+                                class="flex h-11 w-11 items-center justify-center bg-[#f5f1e8] text-[#0e7490]"
+                            >
+                                <Mail class="h-5 w-5" />
+                            </span>
+                            <span class="font-bold">{{
+                                settings.email || 'info@idexa.sa'
+                            }}</span>
+                        </a>
+                        <a
+                            :href="phoneHref"
+                            class="flex items-center gap-4 text-[#1f2933] transition-colors hover:text-[#0e7490]"
+                        >
+                            <span
+                                class="flex h-11 w-11 items-center justify-center bg-[#f5f1e8] text-[#0e7490]"
+                            >
+                                <Phone class="h-5 w-5" />
+                            </span>
+                            <span class="font-bold">{{
+                                settings.phone || '+966000000000'
+                            }}</span>
+                        </a>
+                        <div class="flex items-start gap-4 text-[#1f2933]">
+                            <span
+                                class="flex h-11 w-11 flex-none items-center justify-center bg-[#f5f1e8] text-[#0e7490]"
+                            >
+                                <MapPin class="h-5 w-5" />
+                            </span>
+                            <span class="pt-2 leading-7 font-bold">{{
+                                settings.address ||
+                                'Riyadh, Kingdom of Saudi Arabia'
+                            }}</span>
                         </div>
-                    </Link>
+                    </div>
+                </div>
 
-                    <!-- Careers -->
-                    <Link href="/contact" class="relative group block h-full w-full overflow-hidden bg-[#222222]">
-                        <img
-                            src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&q=80"
-                            alt="Careers"
-                            class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000"
-                        />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                        <div class="absolute inset-x-0 bottom-0 p-10 flex items-center justify-between">
-                            <h3 class="text-3xl md:text-4xl font-bold text-white">Careers</h3>
-                            <div class="w-14 h-14 bg-[#00C4CC] text-white flex items-center justify-center rotate-45 group-hover:rotate-0 transition-transform duration-500">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
-                                </svg>
-                            </div>
-                        </div>
-                    </Link>
-
+                <div class="border border-[#1f2933]/10 bg-[#f5f1e8] p-6 md:p-8">
+                    <div class="mb-8 flex items-center gap-3">
+                        <CheckCircle2 class="h-5 w-5 text-[#0e7490]" />
+                        <p
+                            class="text-sm font-bold tracking-[0.18em] text-[#46535f] uppercase"
+                        >
+                            Response from the IDEXA team
+                        </p>
+                    </div>
+                    <ContactForm />
                 </div>
             </div>
         </section>
-
-        <!-- CTA -->
-        <section class="bg-[#00C4CC] py-20">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Ready to build the right solution?</h2>
-                <p class="text-white/80 text-lg mb-8">Talk to our team about your business needs across Saudi Arabia.</p>
-                <Link href="/contact" class="inline-flex items-center justify-center px-10 py-4 bg-[#222222] text-white font-bold text-sm uppercase tracking-widest rounded-full hover:bg-black transition-colors duration-300">
-                    Contact Us
-                </Link>
-            </div>
-        </section>
-
     </div>
 </template>

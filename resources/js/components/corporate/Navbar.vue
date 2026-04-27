@@ -1,148 +1,160 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
-import { Link, usePage } from '@inertiajs/vue3'
+import { usePage } from '@inertiajs/vue3';
+import { ArrowRight } from 'lucide-vue-next';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 
-const page = usePage()
-const appName = computed(() => (page.props.name as string) || 'NULL')
-const appNameFirstPart = computed(() => {
-    const parts = appName.value.trim().split(' ')
-    return parts[0]
-})
-const appNameSecondPart = computed(() => {
-    const parts = appName.value.trim().split(' ')
-    return parts.slice(1).join(' ')
-})
+const page = usePage();
+const appName = computed(() => (page.props.name as string) || 'IDEXA Group');
 
-const isScrolled = ref(false)
-const isMobileMenuOpen = ref(false)
+const isScrolled = ref(false);
+const isMobileMenuOpen = ref(false);
 
 const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'About us', href: '/about' },
-    { label: 'Areas of expertise', href: '/capabilities' },
-    { label: 'Our commitment', href: '/sustainability' },
-    { label: 'Investor relations', href: '/partners' },
-    { label: 'Careers', href: '/contact' },
-]
+    { label: 'About', href: '/#about' },
+    { label: 'Expertise', href: '/#expertise' },
+    { label: 'Process', href: '/#process' },
+    { label: 'Commitment', href: '/#commitment' },
+    { label: 'Partners', href: '/#partners' },
+];
 
 function handleScroll() {
-    isScrolled.value = window.scrollY > 50
+    isScrolled.value = window.scrollY > 40;
 }
 
 function toggleMobileMenu() {
-    isMobileMenuOpen.value = !isMobileMenuOpen.value
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
 }
 
 function closeMobileMenu() {
-    isMobileMenuOpen.value = false
+    isMobileMenuOpen.value = false;
 }
 
 onMounted(() => {
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-})
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+});
 
 onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll)
-})
+    window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
     <header
-        class="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-        :class="isScrolled ? 'bg-[#222222]/95 backdrop-blur-md shadow-lg border-b border-[#333333]' : 'bg-transparent'"
+        class="fixed top-0 right-0 left-0 z-50 px-3 pt-3 transition-all duration-300"
+        :class="
+            isScrolled || isMobileMenuOpen ? 'translate-y-0' : 'bg-transparent'
+        "
     >
-        <nav class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <!-- Logo -->
-                <Link href="/" class="flex items-center gap-2 group" @click="closeMobileMenu">
-                    <div class="flex items-baseline">
+        <nav
+            class="mx-auto max-w-7xl border border-slate-200/80 bg-white/92 px-5 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl lg:px-6"
+        >
+            <div class="flex h-16 items-center justify-between">
+                <a
+                    href="/#top"
+                    class="flex items-center gap-3"
+                    @click="closeMobileMenu"
+                >
+                    <img
+                        src="/images/IDEXA-black.png"
+                        alt="IDEXA"
+                        class="h-10 w-10 object-contain"
+                    />
+                    <span
+                        class="hidden text-sm font-bold tracking-[0.16em] text-slate-950 uppercase sm:block"
+                    >
+                        {{ appName }}
+                    </span>
+                </a>
 
-                        <span class="text-[#00C4CC] font-black text-4xl tracking-tighter"><img
-                        src="/images/IDEXA-black.png" alt="Logo" class="w-20 h-20" /></span>
-                        <!-- <span class="text-white font-medium text-lg ml-2 tracking-wide uppercase">{{ appNameFirstPart }}</span> -->
-                    </div>
-                    <!-- <a href="/" class="flex items-center gap-1 group">
-                <span
-                    class="text-[#115597] text-[1.7rem] font-bold tracking-tighter group-hover:text-white transition-colors"><img
-                        src="/images/IDEXA.png" alt="Logo" class="w-16 h-16" /></span>
-                <span
-                    class="text-white text-[1.1rem] font-medium tracking-tight group-hover:text-[#115597] transition-colors mt-[2px]">{{ $nameParts[1] ?? '' }}</span>
-            </a> -->
-                </Link>
-
-                <!-- Desktop Navigation -->
-                <div class="hidden lg:flex items-center gap-1">
-                    <Link
+                <div class="hidden items-center gap-1 lg:flex">
+                    <a
                         v-for="link in navLinks"
                         :key="link.href"
                         :href="link.href"
-                        class="relative px-4 py-2 text-[13px] font-medium text-white/90 hover:text-white transition-colors duration-200 group uppercase tracking-wider"
+                        class="px-3 py-2 text-[12px] font-semibold tracking-[0.12em] text-slate-600 uppercase transition-colors duration-200 hover:text-cyan-700"
                     >
                         {{ link.label }}
-                        <span class="absolute bottom-0 left-4 right-4 h-[2px] bg-[#00C4CC] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-                    </Link>
+                    </a>
                 </div>
 
-                <!-- CTA Button -->
-                <div class="hidden lg:flex items-center gap-4">
-                    <!-- <button class="text-white hover:text-[#00C4CC] transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                    </button> -->
-                    <Link
-                        href="/contact#contact"
-                        class="px-6 py-2 border border-[#00C4CC] text-[#00C4CC] uppercase tracking-widest text-[11px] font-bold rounded-full hover:bg-[#00C4CC] hover:text-white transition-colors duration-300"
+                <div class="hidden lg:block">
+                    <a
+                        href="/#contact"
+                        class="inline-flex items-center gap-2 bg-slate-950 px-5 py-3 text-[11px] font-bold tracking-[0.18em] text-white uppercase transition-colors duration-300 hover:bg-cyan-600"
                     >
                         Contact
-                    </Link>
+                        <ArrowRight class="h-4 w-4" />
+                    </a>
                 </div>
 
-                <!-- Mobile Menu Button -->
                 <button
-                    class="lg:hidden p-2 text-white/80 hover:text-white transition-colors"
-                    @click="toggleMobileMenu"
+                    class="p-2 text-slate-950 transition-colors lg:hidden"
                     :aria-label="isMobileMenuOpen ? 'Close menu' : 'Open menu'"
+                    @click="toggleMobileMenu"
                 >
-                    <svg v-if="!isMobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    <svg
+                        v-if="!isMobileMenuOpen"
+                        class="h-6 w-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 7h16M4 12h16M4 17h16"
+                        />
                     </svg>
-                    <svg v-else class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    <svg
+                        v-else
+                        class="h-6 w-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                        />
                     </svg>
                 </button>
             </div>
         </nav>
 
-        <!-- Mobile Menu -->
         <Transition
-            enter-active-class="transition-all duration-300 ease-out"
-            enter-from-class="opacity-0 -translate-y-4"
+            enter-active-class="transition-all duration-250 ease-out"
+            enter-from-class="opacity-0 -translate-y-3"
             enter-to-class="opacity-100 translate-y-0"
             leave-active-class="transition-all duration-200 ease-in"
             leave-from-class="opacity-100 translate-y-0"
-            leave-to-class="opacity-0 -translate-y-4"
+            leave-to-class="opacity-0 -translate-y-3"
         >
             <div
                 v-if="isMobileMenuOpen"
-                class="lg:hidden bg-[#222222]/98 backdrop-blur-md border-t border-[#333333]"
+                class="mx-auto max-w-7xl border-x border-b border-slate-200/80 bg-white lg:hidden"
             >
-                <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col gap-2">
-                    <Link
+                <div class="flex flex-col gap-1 px-5 py-5">
+                    <a
                         v-for="link in navLinks"
                         :key="link.href"
                         :href="link.href"
-                        class="px-4 py-3 text-white/80 hover:text-white hover:bg-white/5 rounded-sm transition-colors duration-200 font-medium"
+                        class="px-2 py-3 text-sm font-bold tracking-[0.14em] text-slate-700 uppercase transition-colors hover:text-cyan-700"
                         @click="closeMobileMenu"
                     >
                         {{ link.label }}
-                    </Link>
-                    <Link
-                        href="/contact"
-                        class="mt-4 px-6 py-3 border border-[#00C4CC] text-[#00C4CC] font-bold uppercase tracking-widest text-[11px] rounded-full text-center hover:bg-[#00C4CC] hover:text-white transition-colors duration-200"
+                    </a>
+                    <a
+                        href="/#contact"
+                        class="mt-3 inline-flex items-center justify-center gap-2 bg-slate-950 px-6 py-3 text-xs font-bold tracking-[0.18em] text-white uppercase"
                         @click="closeMobileMenu"
                     >
                         Contact
-                    </Link>
+                        <ArrowRight class="h-4 w-4" />
+                    </a>
                 </div>
             </div>
         </Transition>
