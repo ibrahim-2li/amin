@@ -92,24 +92,6 @@ class CorporateSeeder extends Seeder
                     ['title' => 'Teacher Training Programmes', 'description' => 'Professional development programmes equipping educators with skills for technology-enhanced, outcome-focused teaching.'],
                 ],
             ],
-            [
-                'name' => 'Tawzea by IDEXA',
-                'slug' => 'tawzea-by-IDEXA',
-                'tagline' => 'The next generation of distribution and logistics services with integrated sustainability practices.',
-                'description' => 'Tawzea by IDEXA delivers the next generation of distribution and logistics services, combining supply chain expertise with smart technology and integrated sustainability practices for maximum efficiency and reliability.',
-                'long_description' => "Tawzea by IDEXA is the logistics and distribution arm of IDEXA Group, built to deliver smart, reliable, and sustainable supply chain solutions that meet the demands of a rapidly evolving marketplace.\n\nWe provide end-to-end distribution and logistics services with a dedicated focus on efficiency, transparency, and customer satisfaction. Our operations integrate advanced warehouse management systems, intelligent transport management platforms, and real-time track-and-trace technology — giving clients complete visibility and control over their supply chains.\n\nSustainability is embedded into every aspect of our logistics operations. We continuously invest in fuel-efficient fleets, optimized routing algorithms, and green warehousing practices, reducing our environmental impact while maintaining the highest levels of service. Our dedicated customer support teams operate globally, ensuring issues are resolved rapidly and clients are always informed.",
-                'hero_image' => 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&q=80&auto=format&fit=crop',
-                'color' => '#0a2a3a',
-                'order' => 5,
-                'services' => [
-                    ['title' => 'Distribution & Delivery Services', 'description' => 'Nationwide and regional distribution with last-mile delivery capabilities, proof-of-delivery capture, and customer notification.'],
-                    ['title' => 'Warehouse Management', 'description' => 'Modern warehousing with cloud-based WMS for real-time inventory visibility, slotting optimization, and automated replenishment.'],
-                    ['title' => 'Supply Chain Consulting', 'description' => 'Strategic supply chain design, network optimization, and continuous improvement programmes for complex operations.'],
-                    ['title' => 'Track & Trace Technology', 'description' => 'End-to-end shipment tracking using barcode, RFID, and GPS technologies integrated with client-facing portals.'],
-                    ['title' => 'Secure Document Distribution', 'description' => 'Specialist distribution of sensitive printed materials and identity documents with full chain-of-custody tracking.'],
-                    ['title' => 'Sustainable Logistics Solutions', 'description' => 'Green logistics initiatives including fuel-efficient fleets, carbon offset programmes, and eco-friendly packaging standards.'],
-                ],
-            ],
         ];
 
         foreach ($divisions as $divisionData) {
