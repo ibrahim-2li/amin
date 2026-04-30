@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps<{
     partner: {
@@ -28,18 +28,36 @@ defineOptions({
 
 const form = useForm({
     name: props.partner?.name ?? '',
-    logo: props.partner?.logo ?? '',
+    logo: null as File | null,
     website: props.partner?.website ?? '',
     category: props.partner?.category ?? 'general',
     order: props.partner?.order ?? 1,
     is_active: props.partner?.is_active ?? true,
+    _method: isEdit.value ? 'put' : 'post',
 })
 
 function save() {
     if (isEdit.value) {
-        form.put(`/admin/partners/${props.partner!.id}`)
+        form.post(`/admin/partners/${props.partner!.id}`, {
+            forceFormData: true,
+            preserveScroll: true,
+        })
     } else {
-        form.post('/admin/partners')
+        form.post('/admin/partners', {
+            forceFormData: true,
+            preserveScroll: true,
+        })
+    }
+}
+
+const logoPreview = ref(props.partner?.logo ?? '')
+
+function updateLogo(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null
+    form.logo = file
+
+    if (file) {
+        logoPreview.value = URL.createObjectURL(file)
     }
 }
 </script>
@@ -71,11 +89,12 @@ function save() {
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Logo URL</label>
-                    <input v-model="form.logo" type="text" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring" placeholder="https://…" />
-                    <p class="mt-1 text-xs text-muted-foreground">Paste the URL of a logo image (PNG/SVG with transparent background preferred).</p>
-                    <div v-if="form.logo" class="mt-2 inline-flex items-center justify-center h-12 w-24 rounded-lg border border-border bg-muted p-1">
-                        <img :src="form.logo" alt="Logo preview" class="max-h-full max-w-full object-contain" @error="(e) => (e.target as HTMLImageElement).style.display = 'none'" />
+                    <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Logo</label>
+                    <input type="file" accept="image/*" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring file:mr-4 file:rounded-md file:border-0 file:bg-muted file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-foreground" @change="updateLogo" />
+                    <p class="mt-1 text-xs text-muted-foreground">Upload a PNG, SVG, JPG, or WebP logo. Transparent background preferred.</p>
+                    <p v-if="form.errors.logo" class="mt-1 text-xs text-destructive">{{ form.errors.logo }}</p>
+                    <div v-if="logoPreview" class="mt-2 inline-flex items-center justify-center h-12 w-24 rounded-lg border border-border bg-muted p-1">
+                        <img :key="logoPreview" :src="logoPreview" alt="Logo preview" class="max-h-full max-w-full object-contain" @error="(e) => (e.target as HTMLImageElement).style.display = 'none'" />
                     </div>
                 </div>
 

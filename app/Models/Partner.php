@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Partner extends Model
 {
@@ -18,6 +19,19 @@ class Partner extends Model
             'is_active' => 'boolean',
             'order' => 'integer',
         ];
+    }
+
+    public function getLogoAttribute(?string $value): ?string
+    {
+        if (! $value || Str::startsWith($value, ['http://', 'https://', '/'])) {
+            return $value;
+        }
+
+        if (Str::startsWith($value, 'storage/')) {
+            return '/'.$value;
+        }
+
+        return '/storage/'.$value;
     }
 
     public function scopeActive($query)

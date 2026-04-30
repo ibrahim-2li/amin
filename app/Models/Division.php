@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Division extends Model
 {
@@ -27,6 +28,19 @@ class Division extends Model
     public function services(): HasMany
     {
         return $this->hasMany(Service::class)->orderBy('order');
+    }
+
+    public function getHeroImageAttribute(?string $value): ?string
+    {
+        if (! $value || Str::startsWith($value, ['http://', 'https://', '/'])) {
+            return $value;
+        }
+
+        if (Str::startsWith($value, 'storage/')) {
+            return '/'.$value;
+        }
+
+        return '/storage/'.$value;
     }
 
     public function scopeActive($query)

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, useForm, router } from '@inertiajs/vue3'
+import { Head, Link, useForm } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 
@@ -50,18 +50,32 @@ const divisionForm = useForm({
     description_ar: props.division.description_ar ?? '',
     long_description: props.division.long_description ?? '',
     long_description_ar: props.division.long_description_ar ?? '',
-    hero_image: props.division.hero_image ?? '',
+    hero_image: null as File | null,
     color: props.division.color,
     order: props.division.order,
     is_active: props.division.is_active,
+    _method: 'put',
 })
 
 function saveDivision() {
-    divisionForm.put(`/admin/divisions/${props.division.id}`)
+    divisionForm.post(`/admin/divisions/${props.division.id}`, {
+        forceFormData: true,
+        preserveScroll: true,
+    })
 }
 
 const page = usePage()
 const flash = computed(() => (page.props.flash as { success?: string; error?: string }) ?? {})
+const heroImagePreview = ref(props.division.hero_image ?? '')
+
+function updateHeroImage(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null
+    divisionForm.hero_image = file
+
+    if (file) {
+        heroImagePreview.value = URL.createObjectURL(file)
+    }
+}
 </script>
 
 <template>
@@ -158,12 +172,13 @@ const flash = computed(() => (page.props.flash as { success?: string; error?: st
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Hero Image URL</label>
-                    <input v-model="divisionForm.hero_image" type="text" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm font-mono focus:outline-none focus:ring-2 focus:ring-ring" placeholder="https://images.unsplash.com/…" />
-                    <p class="mt-1 text-xs text-muted-foreground">Paste any image URL. Recommended: Unsplash (1920×1080).</p>
+                    <label class="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Hero Image</label>
+                    <input type="file" accept="image/*" class="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring file:mr-4 file:rounded-md file:border-0 file:bg-muted file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-foreground" @change="updateHeroImage" />
+                    <p class="mt-1 text-xs text-muted-foreground">Upload a JPG, PNG, WebP, or SVG image. Recommended: 1920×1080.</p>
+                    <p v-if="divisionForm.errors.hero_image" class="mt-1 text-xs text-destructive">{{ divisionForm.errors.hero_image }}</p>
                     <!-- Preview -->
-                    <div v-if="divisionForm.hero_image" class="mt-2 h-24 rounded-lg overflow-hidden border border-border">
-                        <img :src="divisionForm.hero_image" alt="Hero preview" class="w-full h-full object-cover" @error="(e) => (e.target as HTMLImageElement).style.display = 'none'" />
+                    <div v-if="heroImagePreview" class="mt-2 h-24 rounded-lg overflow-hidden border border-border">
+                        <img :src="heroImagePreview" alt="Hero preview" class="w-full h-full object-cover" @error="(e) => (e.target as HTMLImageElement).style.display = 'none'" />
                     </div>
                 </div>
 
