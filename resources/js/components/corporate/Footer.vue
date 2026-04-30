@@ -44,8 +44,9 @@ const emailHref = computed(
             <div class="grid gap-12 lg:grid-cols-[1.1fr_0.75fr_0.75fr_1fr]">
                 <div>
                     <a href="/#top" class="inline-flex items-center gap-3">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-600 dark:text-cyan-400">
-                            <ShieldCheck class="h-6 w-6" />
+                        <div class="flex h-16 w-16 items-center justify-center rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-600 dark:text-cyan-400">
+                            <!-- <ShieldCheck class="h-6 w-6" /> -->
+                             <img src="/images/IDEXA.png" class="h-14 w-auto object-contain" alt="">
                         </div>
                         <span class="text-lg font-bold tracking-[0.2em] text-slate-900 dark:text-white uppercase transition-colors">{{ appName }}</span>
                     </a>
