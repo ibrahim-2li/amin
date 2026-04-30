@@ -96,9 +96,16 @@ const categoryLabels: Record<string, string> = {
                             <div
                                 v-for="partner in partners"
                                 :key="partner.id"
-                                class="h-20 bg-white border border-slate-100 flex items-center justify-center px-4 hover:border-slate-300 hover:shadow-sm transition-all duration-200"
+                                class="h-24 bg-white border border-slate-100 flex items-center justify-center px-4 hover:border-slate-300 hover:shadow-sm transition-all duration-200"
                             >
-                                <span class="text-sm font-semibold text-slate-500 text-center leading-tight">{{ partner.name }}</span>
+                                <img
+                                    v-if="partner.logo"
+                                    :src="partner.logo"
+                                    :alt="partner.name"
+                                    class="max-h-14 max-w-full object-contain"
+                                    loading="lazy"
+                                />
+                                <span v-else class="text-sm font-semibold text-slate-500 text-center leading-tight">{{ partner.name }}</span>
                             </div>
                         </div>
                     </div>

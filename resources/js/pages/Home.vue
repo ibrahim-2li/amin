@@ -529,12 +529,26 @@ const emailHref = computed(
             <!-- Partners Marquee -->
             <div id="partners" class="relative flex overflow-x-hidden border-t border-slate-200 dark:border-white/5 pt-16 transition-colors duration-300">
                 <div class="py-4 animate-marquee whitespace-nowrap flex items-center gap-16 px-8" dir="ltr">
-                    <div v-for="partner in featuredPartners" :key="partner.id" class="flex items-center justify-center opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-                        <span class="text-xl font-bold text-slate-400 dark:text-slate-300 tracking-wider transition-colors">{{ partner.name }}</span>
+                    <div v-for="partner in featuredPartners" :key="partner.id" class="flex h-16 min-w-36 items-center justify-center opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                        <img
+                            v-if="partner.logo"
+                            :src="partner.logo"
+                            :alt="partner.name"
+                            class="max-h-12 max-w-36 object-contain"
+                            loading="lazy"
+                        />
+                        <span v-else class="text-xl font-bold text-slate-400 dark:text-slate-300 tracking-wider transition-colors">{{ partner.name }}</span>
                     </div>
                     <!-- Duplicate for infinite scroll -->
-                    <div v-for="partner in featuredPartners" :key="partner.id + '_dup'" class="flex items-center justify-center opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-                        <span class="text-xl font-bold text-slate-400 dark:text-slate-300 tracking-wider transition-colors">{{ partner.name }}</span>
+                    <div v-for="partner in featuredPartners" :key="partner.id + '_dup'" class="flex h-16 min-w-36 items-center justify-center opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                        <img
+                            v-if="partner.logo"
+                            :src="partner.logo"
+                            :alt="partner.name"
+                            class="max-h-12 max-w-36 object-contain"
+                            loading="lazy"
+                        />
+                        <span v-else class="text-xl font-bold text-slate-400 dark:text-slate-300 tracking-wider transition-colors">{{ partner.name }}</span>
                     </div>
                 </div>
             </div>

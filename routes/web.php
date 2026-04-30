@@ -20,6 +20,8 @@ Route::get('/locale/{language}', function ($language) {
     return back();
 })->name('locale.switch');
 
+// Route::get('/', fn () => 'HELLO');
+
 // Corporate public routes
 Route::get('/', HomeController::class)->name('home');
 Route::get('/about', AboutController::class)->name('about');
